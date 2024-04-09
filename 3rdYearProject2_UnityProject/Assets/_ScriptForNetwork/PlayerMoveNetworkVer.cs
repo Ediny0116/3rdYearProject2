@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Netcode;
-using UnityEngine.PlayerLoop;
 
 public class PlayerMoveNetworkVer : NetworkBehaviour
 {
@@ -8,10 +7,7 @@ public class PlayerMoveNetworkVer : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer && !IsLocalPlayer && NetworkObject.IsPlayerObject)
-        {
-            transform.position += new Vector3(-2, 0, 0);
-        }
+        if(!IsOwner) Destroy(this);
         base.OnNetworkSpawn();
     }
     void Update()
