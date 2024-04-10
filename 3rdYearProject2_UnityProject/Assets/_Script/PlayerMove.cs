@@ -45,4 +45,5 @@ public class PlayerMove : MonoBehaviour
 
         transform.position += moveAmt * Time.deltaTime;
     }
+
 }
