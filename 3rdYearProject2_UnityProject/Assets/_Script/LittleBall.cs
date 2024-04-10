@@ -6,12 +6,14 @@ public class LittleBall : MonoBehaviour
 {
     public GameObject littleBall;
     public GameObject headlittleBall;
+    public GameObject player;
+    public float pickDistance=1f;
 
     // Update is called once per frame
     void Update()
     {
         //check if player is near littleball
-        if (Vector3.Distance(transform.position, littleBall.transform.position) < 0.5f)
+        if (Vector3.Distance(player.transform.position, littleBall.transform.position) < pickDistance)
         {
             //check if left mousebotton click
             if (Input.GetMouseButtonDown(0))

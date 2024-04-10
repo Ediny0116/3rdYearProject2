@@ -2024,6 +2024,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088559670}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1135025587 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6742210525715261662, guid: a31eda7abeec7ea4ea3f552a0d66d01a, type: 3}
+  m_PrefabInstance: {fileID: 1672967678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1171858604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2992,6 +2997,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   littleBall: {fileID: 1567153176}
   headlittleBall: {fileID: 947612521}
+  player: {fileID: 1135025587}
+  pickDistance: 1
 --- !u!1 &1620568273
 GameObject:
   m_ObjectHideFlags: 0
@@ -3701,6 +3708,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bigBall: {fileID: 1957150100}
   headbigBall: {fileID: 1088559670}
+  player: {fileID: 1135025587}
+  pickDistance: 1
 --- !u!1 &2014323987
 GameObject:
   m_ObjectHideFlags: 0
