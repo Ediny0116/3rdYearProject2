@@ -13,7 +13,7 @@ public class BigBall : MonoBehaviour
     void Update()
     {
         //check if player is near bigball
-        //原版: if (Vector3.Distance(transform.position, bigBall.transform.position) < 0.5f). Distance函數中第一個參數transform.position代表"該腳本附著的物件"的位置，等同第二個參數bigBall.transform.position，也就是你放了兩個一樣的東西去比較距離。
+        //The first parameter "transform.position" in the Distance function represents the position of "the object attached to the script", which is equivalent to the second parameter bigBall.transform.position, which means you put two identical things to compare the distance.
         if (Vector3.Distance(player.transform.position, bigBall.transform.position) < pickDistance)
         {
             //check if left mousebotton click
