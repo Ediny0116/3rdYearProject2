@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float maxRotate = 5f; 
-    public float maxSpeed = 3f; 
-    public float lerpAmt = 0.1f; 
+    public float maxRotate = 5f;
+    public float maxSpeed = 3f;
+    public float lerpAmt = 0.1f;
 
-    private Vector3 rVec; 
-    private Vector3 fVec; 
+    private Vector3 rVec;
+    private Vector3 fVec;
 
     void Start()
     {
