@@ -8,8 +8,14 @@ public class LittleBall : MonoBehaviour
     public GameObject headlittleBall;
     public GameObject player;
     public float pickDistance=1f;
+    
+    //private ChessBoard ChessBoard;//Reference to the Chessboard script
 
-    // Update is called once per frame
+    /*private void Start()
+    {
+        //Get the Chessboard script attached to the Chessboard Game Object
+        ChessBoard = GameObject.Find("ChessBoard").GetComponent<ChessBoard>();
+    }*/
     void Update()
     {
         //check if player is near littleball
