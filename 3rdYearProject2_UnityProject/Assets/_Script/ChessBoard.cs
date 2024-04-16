@@ -10,37 +10,12 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private Color originalColor;//Original
     private bool isClicked = false;
-    private bool HeadLittleBallActivated = false;
+    //private bool HeadLittleBallActivated = false;
 
     private void Start()
     {
         originalColor=GetComponent<Renderer>().material.color;//get the original color.
-        
     }
-
-    /*void Update()
-    {
-        //check HeadLittleBallActivated
-        GameObject headLittleBall = GameObject.Find("Head_LittleBall");
-        if (headLittleBall != null && headLittleBall.activeSelf)
-        {
-            HeadLittleBallActivated = true;
-        }
-        else
-        {
-            HeadLittleBallActivated = false;
-        }
-
-        //if HeadLittleBallActivated is true, start ChessBoard script.
-        if (HeadLittleBallActivated)
-        {
-            enabled = true;
-        }
-        else
-        {
-            enabled = false;
-        }
-    }*/
 
     public void OnPointerEnter(PointerEventData eventData)
     {
