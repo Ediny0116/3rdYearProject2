@@ -12,9 +12,13 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private bool isClicked = false;
     //private bool HeadLittleBallActivated = false;
 
+    BoardCheck boardCheck;
+
     private void Start()
     {
         originalColor=GetComponent<Renderer>().material.color;//get the original color.
+        boardCheck = GameObject.Find("board").GetComponent<BoardCheck>();
+            
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -36,12 +40,16 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerClick(PointerEventData eventData)
     {
         isClicked = true;
+        boardCheck.AddToLine(this.gameObject);
         ChangeColor(clickColor);
     }
 
-    private void ChangeColor(Color color)
+    public void ChangeColor(Color color)
     {
-        this.gameObject.GetComponent<Renderer>().material.color = color;//change cube color.
+        if (!isClicked)
+            GetComponent<Renderer>().material.color = color;//change cube color.
+        else
+            GetComponent<Renderer>().material.color = clickColor;
     }
 
     //-----------------
@@ -52,6 +60,8 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void SetIsClicked(bool value)
     {
         isClicked = value;
+        boardCheck.AddToLine(this.gameObject);
     }
+
     //-----------------
 }
