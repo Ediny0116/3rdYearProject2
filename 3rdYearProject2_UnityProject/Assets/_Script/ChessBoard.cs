@@ -41,6 +41,17 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void ChangeColor(Color color)
     {
-        GetComponent<Renderer>().material.color = color;//change cube color.
+        this.gameObject.GetComponent<Renderer>().material.color = color;//change cube color.
     }
+
+    //-----------------
+    public bool GetIsClicked()
+    {
+        return isClicked;
+    }
+    public void SetIsClicked(bool value)
+    {
+        isClicked = value;
+    }
+    //-----------------
 }
