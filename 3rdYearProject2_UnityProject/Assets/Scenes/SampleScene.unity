@@ -1337,6 +1337,7 @@ MonoBehaviour:
   - {fileID: 927834479}
   - {fileID: 1470691612}
   LineCount: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  ScoreUI: {fileID: 1568678616}
 --- !u!1 &497981114
 GameObject:
   m_ObjectHideFlags: 0
@@ -5510,6 +5511,7 @@ GameObject:
   - component: {fileID: 1568678617}
   - component: {fileID: 1568678619}
   - component: {fileID: 1568678618}
+  - component: {fileID: 1568678620}
   m_Layer: 5
   m_Name: Text (TMP)Score
   m_TagString: Untagged
@@ -5635,6 +5637,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568678616}
   m_CullTransparentMesh: 1
+--- !u!114 &1568678620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568678616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af73537190ceff54f9165268042bf7d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1620568273
 GameObject:
   m_ObjectHideFlags: 0
