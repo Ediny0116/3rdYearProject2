@@ -39,9 +39,8 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        isClicked = true;
-        boardCheck.AddToLine(this.gameObject);
-        ChangeColor(clickColor);
+            SetIsClicked(true);
+            ChangeColor(clickColor);
     }
 
     public void ChangeColor(Color color)
@@ -59,9 +58,11 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void SetIsClicked(bool value)
     {
-        isClicked = value;
-        boardCheck.AddToLine(this.gameObject);
+        if (!isClicked)
+        {
+            isClicked = value;
+            boardCheck.AddToLine(this.gameObject);
+        }
     }
-
     //-----------------
 }
