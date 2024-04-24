@@ -4,10 +4,7 @@ using UnityEngine.EventSystems;
 
 public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public GameObject A;
-    public GameObject B;
-    public GameObject C;
-    public GameObject D;
+    public GameObject[] chessBoard = new GameObject[4];
 
     public Color hoverColor;
     public Color bigClickColor;
@@ -17,49 +14,53 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         
         originalColors = new Color[4];
-        originalColors[0] = A.GetComponent<Renderer>().material.color;
-        originalColors[1] = B.GetComponent<Renderer>().material.color;
-        originalColors[2] = C.GetComponent<Renderer>().material.color;
-        originalColors[3] = D.GetComponent<Renderer>().material.color;
+        for (int i = 0; i < 4; i++)
+        {
+            originalColors[i] = chessBoard[i].GetComponent<Renderer>().material.color;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-            ChangeColor(A, hoverColor);
-            ChangeColor(B, hoverColor);
-            ChangeColor(C, hoverColor);
-            ChangeColor(D, hoverColor);
+        ChangeColor(hoverColor);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-            ChangeColor(A, originalColors[0]);
-            ChangeColor(B, originalColors[1]);
-            ChangeColor(C, originalColors[2]);
-            ChangeColor(D, originalColors[3]);
+        ChangeColor(originalColors);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         SetChessIsClicked(true);
-        ChangeColor(A, bigClickColor);
-        ChangeColor(B, bigClickColor);
-        ChangeColor(C, bigClickColor);
-        ChangeColor(D, bigClickColor);
+        ChangeColor(bigClickColor);
     }
 
-    private void ChangeColor(GameObject cell, Color color)
+    private void ChangeColor(Color color)
     {
-        cell.GetComponent<ChessBoard>().ChangeColor(color);
+        // 將顏色應用到每個棋盤格子
+        foreach (GameObject cell in chessBoard)
+        {
+            cell.GetComponent<ChessBoard>().ChangeColor(color);
+        }
+    }
+
+    private void ChangeColor(Color[] colors)
+    {
+        // 將每個棋盤格子的顏色恢復到原始顏色
+        for (int i = 0; i < 4; i++)
+        {
+            chessBoard[i].GetComponent<ChessBoard>().ChangeColor(colors[i]);
+        }
     }
 
     //-----------------
     void SetChessIsClicked(bool value)
     {   //將大棋格的狀態傳給小棋格
-        A.GetComponent<ChessBoard>().SetIsClicked(value);
-        B.GetComponent<ChessBoard>().SetIsClicked(value);
-        C.GetComponent<ChessBoard>().SetIsClicked(value);
-        D.GetComponent<ChessBoard>().SetIsClicked(value);
+        foreach (GameObject cell in chessBoard)
+        {
+            cell.GetComponent<ChessBoard>().SetIsClicked(value);
+        }
     }
     //-----------------
 }
