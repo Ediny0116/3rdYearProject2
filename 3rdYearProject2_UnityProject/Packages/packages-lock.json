@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.blendernodesgraph.core": {
+      "version": "file:F:/_GithubUnityProject/blender-nodes-subgraph",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.12",
       "depth": 1,
