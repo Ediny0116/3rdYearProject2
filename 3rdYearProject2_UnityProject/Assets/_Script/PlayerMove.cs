@@ -46,4 +46,20 @@ public class PlayerMove : MonoBehaviour
         transform.position += moveAmt * Time.deltaTime;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Move the player to the specified position (0, 8, 0)
+        if (other.CompareTag("Water"))
+        {
+            // Start the coroutine to respawn after 2 seconds
+            StartCoroutine(RespawnAfterDelay());
+        }
+    }
+    private IEnumerator RespawnAfterDelay()
+    {
+        // Wait for 2 seconds
+        yield return new WaitForSeconds(2f);
+        // Move the player to the specified position (0, 8, 0)
+        transform.position = new Vector3(0f, 8f, 0f);
+    }
 }
