@@ -1,10 +1,19 @@
 {
   "dependencies": {
     "com.blendernodesgraph.core": {
-      "version": "file:F:/_GithubUnityProject/3rdYearProject2/BlenderToUnity插件",
+      "version": "file:C:/Users/Ninebirds/Desktop/blender-nodes-subgraph-main/blender-nodes-subgraph-main",
       "depth": 0,
       "source": "local",
       "dependencies": {}
+    },
+    "com.unity.ai.navigation": {
+      "version": "2.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
       "version": "1.8.12",
