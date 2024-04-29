@@ -3,26 +3,11 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-    private PlayerAnimation playerAnimation;
-    private PlayerMove playerMove;
-
-    private void Start()
-    {
-        playerAnimation = GetComponent<PlayerAnimation>();
-        playerMove = GetComponent<PlayerMove>();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Water"))
         {
-            playerMove.DisableMovement();
-
-            // Start the coroutine to respawn after 2 seconds
             StartCoroutine(RespawnAfterDelay());
-
-            // Call PlayerIsDead function from PlayerAnimation script
-            playerAnimation.PlayerIsDead();
         }
     }
 
@@ -37,8 +22,5 @@ public class Respawn : MonoBehaviour
         // Reset player velocity
         if (TryGetComponent<Rigidbody>(out Rigidbody rb))
             rb.velocity = Vector3.zero;
-
-        // Enable player movement after respawn
-        playerMove.EnableMovement();
     }
 }
