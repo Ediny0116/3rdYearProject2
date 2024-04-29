@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
     public float maxRotate = 5f;
     public float maxSpeed = 3f;
-    public float lerpAmt = 0.1f;
 
     private Vector3 rVec;
     private Vector3 fVec;
 
     private bool canMove = true;
+    public bool isDead = false;
+
+    private Animator animator;
 
     void Start()
     {
@@ -20,11 +20,13 @@ public class PlayerMove : MonoBehaviour
         tempV.y = 0;
         tempV.Normalize();
         fVec = tempV;
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (canMove)
+        if (canMove && !isDead)
         {
             // Get Input
             float horizontalInput = Input.GetAxis("Horizontal");
@@ -37,15 +39,13 @@ public class PlayerMove : MonoBehaviour
                 MoveAndRotate(transAmt, rotAmt);
             }
         }
-    }
-    public void DisableMovement()
-    {
-        canMove = false;
-    }
 
-    public void EnableMovement()
-    {
-        canMove = true;
+        // Check if the player is at position (0, 8, 0)
+        if (transform.position == new Vector3(0f, 8f, 0f))
+        {
+            isDead = false;
+            canMove = true;
+        }
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
@@ -58,5 +58,23 @@ public class PlayerMove : MonoBehaviour
         Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
 
         transform.position += moveAmt * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            isDead = true;
+            canMove = false;
+            GetComponent<PlayerAnimation>().StartDeathAnimation();
+        }
+    }
+
+    // Animation Event method called when death animation is complete
+    public void BackToIdle()
+    {
+        isDead = false;
+        canMove = true;
+        animator.SetBool("IsDead", false);
     }
 }
