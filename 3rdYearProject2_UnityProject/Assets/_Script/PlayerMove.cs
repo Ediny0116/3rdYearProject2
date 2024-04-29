@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
     private Vector3 rVec;
     private Vector3 fVec;
 
+    private bool canMove = true;
+
     void Start()
     {
         rVec = Camera.main.transform.right;
@@ -22,16 +24,28 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        // Get Input
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        if (verticalInput != 0 || horizontalInput != 0)
+        if (canMove)
         {
-            float transAmt = verticalInput;
-            float rotAmt = horizontalInput;
-            MoveAndRotate(transAmt, rotAmt);
+            // Get Input
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+
+            if (verticalInput != 0 || horizontalInput != 0)
+            {
+                float transAmt = verticalInput;
+                float rotAmt = horizontalInput;
+                MoveAndRotate(transAmt, rotAmt);
+            }
         }
+    }
+    public void DisableMovement()
+    {
+        canMove = false;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
