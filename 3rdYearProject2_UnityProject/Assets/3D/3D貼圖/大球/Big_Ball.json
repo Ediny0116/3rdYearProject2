@@ -1,0 +1,61 @@
+{
+    "nodeDatas": [
+        {
+            "connections0Name": [],
+            "connections0NodeName": [],
+            "location": [
+                -731.6495971679688,
+                64.97701263427734
+            ],
+            "name": "ShaderNodeNormalMap.\u6cd5\u7ebf\u8d34\u56fe",
+            "properties": [
+                "0.0",
+                "0.5",
+                "0.5",
+                "1.0",
+                "1.0"
+            ]
+        },
+        {
+            "connections0Name": [
+                "Normal"
+            ],
+            "connections0NodeName": [
+                "ShaderNodeBsdfPrincipled.Principled BSDF"
+            ],
+            "location": [
+                -450.32275390625,
+                -164.5338592529297
+            ],
+            "name": "ShaderNodeNormalMap.\u6cd5\u7ebf\u8d34\u56fe.001",
+            "properties": [
+                "1.0",
+                "0.06087465584278107",
+                "0.26361218094825745",
+                "1.0",
+                "1.0"
+            ]
+        },
+        {
+            "location": [
+                -219.65199279785156,
+                317.1349182128906
+            ],
+            "name": "NULL.ShaderNodeBsdfPrincipled.Principled BSDF"
+        },
+        {
+            "location": [
+                187.3052520751953,
+                304.1448059082031
+            ],
+            "name": "NULL.ShaderNodeOutputMaterial.Material Output"
+        },
+        {
+            "name": "EXTRA",
+            "properties": [
+                "True",
+                "True"
+            ]
+        }
+    ]
+}

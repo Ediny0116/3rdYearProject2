@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.blendernodesgraph.core": "file:F:/_GithubUnityProject/3rdYearProject2/BlenderToUnity插件",
+    "com.blendernodesgraph.core": "file:C:/Users/Ninebirds/Desktop/blender-nodes-subgraph-main/blender-nodes-subgraph-main",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.feature.development": "1.0.2",
     "com.unity.inputsystem": "1.7.0",
