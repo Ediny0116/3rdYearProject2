@@ -34,44 +34,83 @@ public class BoardCheck : MonoBehaviour
             ClickCountInLine[11]++;
             //Debug.Log("Line " + 11 + " +1");
         }
-
-        if (CheckIsLineFull(ClickCountInLine[LineY]))
-        {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            ClickCountInLine[LineY] = 0;
-            //Debug.Log("Line "+LineY+" Full");
-        }
-        if (CheckIsLineFull(ClickCountInLine[LineX]))
-        {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            ClickCountInLine[LineX] = 0;
-            //Debug.Log("Line " + LineX + " Full");
-        }
-        if (CheckIsLineFull(ClickCountInLine[10]))
-        {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            ClickCountInLine[10] = 0;
-            //Debug.Log("Line 10 Full");
-        }
-        if (CheckIsLineFull(ClickCountInLine[11]))
-        {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            ClickCountInLine[11] = 0;
-            //Debug.Log("Line 11 Full");
-        }
+        CheckIsLineFull(LineY, LineX);
     }
 
-    bool CheckIsLineFull(int lineCount)
+    void CheckIsLineFull(int lineY,int lineX)
     {
-        if(lineCount==5)
+        bool[] isLineFull = new bool[4];
+        if(ClickCountInLine[lineY] == 5)
         {
-            return true;
+            ScoreUI.GetComponent<Score>().UpdateScore(5);
+            AddLineCount();
+            isLineFull[0]=true;
         }
-        return false;
+        if (ClickCountInLine[lineX] == 5)
+        {
+            ScoreUI.GetComponent<Score>().UpdateScore(5);
+            AddLineCount();
+            isLineFull[1] = true;
+        }
+        if (ClickCountInLine[10] == 5)
+        {
+            ScoreUI.GetComponent<Score>().UpdateScore(5);
+            AddLineCount();
+            isLineFull[2] = true;
+        }
+        if (ClickCountInLine[11] == 5)
+        {
+            ScoreUI.GetComponent<Score>().UpdateScore(5);
+            AddLineCount();
+            isLineFull[3] = true;
+        }
+
+        if (isLineFull[0])
+        {
+            int ChessNum = (lineY % 5) * 5;
+            for (int i = 0; i < 5; i++)
+            {
+                ChessList[ChessNum + i].GetComponent<ChessBoard>().SetIsClicked(false);
+            }
+            ClickCountInLine[lineY] = 0;
+        }
+        else if (isLineFull[1]|| isLineFull[2]||isLineFull[3])
+            ClickCountInLine[lineY] -= 1;
+
+        if (isLineFull[1])
+        {
+            int ChessNum = lineX;
+            for (int i = 0; i < 5; i++)
+            {
+                ChessList[ChessNum + i*5].GetComponent<ChessBoard>().SetIsClicked(false);
+            }
+            ClickCountInLine[lineX] = 0;
+        }
+        else if (isLineFull[0] || isLineFull[2] || isLineFull[3])
+            ClickCountInLine[lineX] -= 1;
+
+        if (isLineFull[2])
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                ChessList[i * 6].GetComponent<ChessBoard>().SetIsClicked(false);
+            }
+            ClickCountInLine[10] = 0;
+        }
+        else if (isLineFull[1] || isLineFull[0] || isLineFull[3])
+            ClickCountInLine[10] -= 1;
+
+        if (isLineFull[3])
+        {
+            int ChessNum = 4;
+            for (int i = 0; i < 5; i++)
+            {
+                ChessList[ChessNum+(i * 4)].GetComponent<ChessBoard>().SetIsClicked(false);
+            }
+            ClickCountInLine[11] = 0;
+        }
+        else if (isLineFull[1] || isLineFull[2] || isLineFull[0])
+            ClickCountInLine[11] -= 1;
     }
 
     void AddLineCount()

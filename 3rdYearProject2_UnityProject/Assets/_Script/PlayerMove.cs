@@ -1,15 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
     public float maxRotate = 5f;
     public float maxSpeed = 3f;
-    public float lerpAmt = 0.1f;
 
     private Vector3 rVec;
     private Vector3 fVec;
+
+    private bool canMove = true;
+    public bool isDead = false;
+
+    private Animator animator;
 
     void Start()
     {
@@ -18,19 +20,31 @@ public class PlayerMove : MonoBehaviour
         tempV.y = 0;
         tempV.Normalize();
         fVec = tempV;
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        // Get Input
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        if (verticalInput != 0 || horizontalInput != 0)
+        if (canMove && !isDead)
         {
-            float transAmt = verticalInput;
-            float rotAmt = horizontalInput;
-            MoveAndRotate(transAmt, rotAmt);
+            // Get Input
+            float horizontalInput = Input.GetAxis("Horizontal");
+            float verticalInput = Input.GetAxis("Vertical");
+
+            if (verticalInput != 0 || horizontalInput != 0)
+            {
+                float transAmt = verticalInput;
+                float rotAmt = horizontalInput;
+                MoveAndRotate(transAmt, rotAmt);
+            }
+        }
+
+        // Check if the player is at position (0, 8, 0)
+        if (transform.position == new Vector3(0f, 8f, 0f))
+        {
+            isDead = false;
+            canMove = true;
         }
     }
 
@@ -48,18 +62,19 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Move the player to the specified position (0, 8, 0)
         if (other.CompareTag("Water"))
         {
-            // Start the coroutine to respawn after 2 seconds
-            StartCoroutine(RespawnAfterDelay());
+            isDead = true;
+            canMove = false;
+            GetComponent<PlayerAnimation>().StartDeathAnimation();
         }
     }
-    private IEnumerator RespawnAfterDelay()
+
+    // Animation Event method called when death animation is complete
+    public void BackToIdle()
     {
-        // Wait for 2 seconds
-        yield return new WaitForSeconds(2f);
-        // Move the player to the specified position (0, 8, 0)
-        transform.position = new Vector3(0f, 8f, 0f);
+        isDead = false;
+        canMove = true;
+        animator.SetBool("IsDead", false);
     }
 }

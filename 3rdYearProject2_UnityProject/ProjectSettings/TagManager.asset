@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ball
   - Water
+  - LittleBall
+  - BigBall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Chessboard
   - Camera
-  - 
+  - Player
   - 
   - 
   - 

@@ -2,7 +2,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject[] chessBoard = new GameObject[4];
 
@@ -10,30 +10,48 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public Color bigClickColor;
     private Color[] originalColors;
 
+    PlayerPickUpDrop playerPickUpDrop;
+
     void Start()
     {
-        
         originalColors = new Color[4];
         for (int i = 0; i < 4; i++)
         {
             originalColors[i] = chessBoard[i].GetComponent<Renderer>().material.color;
         }
+        playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ChangeColor(hoverColor);
+        if (playerPickUpDrop.GetIsGrabbing()&&playerPickUpDrop.GetIsBigBall())
+        {
+            ChangeColor(hoverColor);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         ChangeColor(originalColors);
     }
-
-    public void OnPointerClick(PointerEventData eventData)
+    /*
+    private void OnTriggerEnter(Collider other)
     {
-        SetChessIsClicked(true);
-        ChangeColor(bigClickColor);
+        if (other.gameObject.name == "BigBall")
+        {
+            Destroy(other.gameObject);
+            SetChessIsClicked(true);
+            ChangeColor(bigClickColor);
+        }
+    }*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("BigBall"))
+        {
+            Destroy(collision.gameObject);
+            SetChessIsClicked(true);
+            ChangeColor(bigClickColor);
+        }
     }
 
     private void ChangeColor(Color color)

@@ -1,0 +1,40 @@
+{
+    "nodeDatas": [
+        {
+            "location": [
+                10.0,
+                300.0
+            ],
+            "name": "NULL.ShaderNodeBsdfPrincipled.Principled BSDF"
+        },
+        {
+            "location": [
+                300.0,
+                300.0
+            ],
+            "name": "NULL.ShaderNodeOutputMaterial.Material Output"
+        },
+        {
+            "connections0Name": [
+                "Base Color"
+            ],
+            "connections0NodeName": [
+                "ShaderNodeBsdfPrincipled.Principled BSDF"
+            ],
+            "connections1Name": [],
+            "connections1NodeName": [],
+            "location": [
+                -320.015869140625,
+                300.0
+            ],
+            "name": "ShaderNodeTexImage.\u56fe\u50cf\u7eb9\u7406"
+        },
+        {
+            "name": "EXTRA",
+            "properties": [
+                "True",
+                "True"
+            ]
+        }
+    ]
+}
