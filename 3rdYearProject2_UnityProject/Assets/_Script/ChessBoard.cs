@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Color hoverColor;//Color on mouseover
     public Color clickColor;//Click color
@@ -13,22 +13,35 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     //private bool HeadLittleBallActivated = false;
 
     BoardCheck boardCheck;
+    PlayerPickUpDrop playerPickUpDrop;
 
     private void Start()
     {
         originalColor=GetComponent<Renderer>().material.color;//get the original color.
         boardCheck = GameObject.Find("board").GetComponent<BoardCheck>();
-            
+        playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
+    private void Update()
     {
-        if (!isClicked)
+        if (!playerPickUpDrop.GetIsGrabbing())
         {
-            ChangeColor(hoverColor);//when mouseover, change color.
+            if (!isClicked)
+            {
+                ChangeColor(originalColor);//when mouseover, change color.
+            }
         }
     }
-
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (playerPickUpDrop.GetIsGrabbing())
+        {
+            if (!isClicked)
+            {
+                ChangeColor(hoverColor);//when mouseover, change color.
+            }
+        }
+    }
+    
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!isClicked)
@@ -36,11 +49,27 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             ChangeColor(originalColor);//when mouse move over, change color back.
         }
     }
-
-    public void OnPointerClick(PointerEventData eventData)
+    /*
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.name == "LittleBall")
+        {
+            Destroy(other.gameObject);
             SetIsClicked(true);
             ChangeColor(clickColor);
+        }
+    }*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isClicked)
+        {
+            if (collision.gameObject.CompareTag("LittleBall"))
+            {
+                Destroy(collision.gameObject);
+                SetIsClicked(true);
+                ChangeColor(clickColor);
+            }
+        }
     }
 
     public void ChangeColor(Color color)
@@ -58,10 +87,18 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void SetIsClicked(bool value)
     {
-        if (!isClicked)
+        if (value)
+        {
+            if (!isClicked)
+            {
+                isClicked = value;
+                boardCheck.AddToLine(this.gameObject);
+            }
+        }
+        else
         {
             isClicked = value;
-            boardCheck.AddToLine(this.gameObject);
+            ChangeColor(originalColor);
         }
     }
     //-----------------
