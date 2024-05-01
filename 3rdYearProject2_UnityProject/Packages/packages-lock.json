@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.blendernodesgraph.core": {
-      "version": "file:C:/Users/Ninebirds/Desktop/blender-nodes-subgraph-main/blender-nodes-subgraph-main",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "com.unity.ai.navigation": {
       "version": "2.0.0",
       "depth": 0,
