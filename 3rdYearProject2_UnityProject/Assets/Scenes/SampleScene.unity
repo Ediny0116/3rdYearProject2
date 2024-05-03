@@ -1526,6 +1526,10 @@ MonoBehaviour:
   - {fileID: 1110619472}
   - {fileID: 251652969}
   - {fileID: 702001325}
+  LightColor:
+  - {r: 1, g: 1, b: 1, a: 0}
+  - {r: 1, g: 0.8980392, b: 0.49411765, a: 0}
+  - {r: 0.49411765, g: 1, b: 0.6862745, a: 0}
 --- !u!65 &388473701
 BoxCollider:
   m_ObjectHideFlags: 0
