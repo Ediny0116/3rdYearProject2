@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 05bc69ed984f0a645837f84c9d6ef5c0
+guid: 32e6566613805e84c8cd201d16eee3ca
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -9,11 +9,6 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material.002
     second: {fileID: 2100000, guid: e3301a7fcc85d3c46806138e5bb001de, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Stem.001
-    second: {fileID: 2100000, guid: 49939fe587e363e4ca19f2b0e5e6ea51, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
