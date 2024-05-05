@@ -13,6 +13,14 @@ public class BoardCheck : MonoBehaviour
 
     int LineCount = 0;
 
+    private void Start()
+    {
+        foreach (GameObject LB in LightballList)
+        {
+            LB.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
+            LB.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        }
+    }
     public void AddToLine(GameObject chess)
     {
         ScoreUI.GetComponent<Score>().UpdateScore(1);
@@ -117,9 +125,9 @@ public class BoardCheck : MonoBehaviour
     {
         if(LineCount < 15)
         LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]);
+        Debug.Log("LB " + LightballList[LineCount % 5].gameObject);
         Debug.Log("Line" + LineCount);
         Debug.Log("LightLv "+LineCount/5);
         LineCount++;
-
     }
 }
