@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
     public Color hoverColor;//Color on mouseover
     public Color clickColor;//Click color
@@ -49,16 +50,15 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             ChangeColor(originalColor);//when mouse move over, change color back.
         }
     }
-    /*
-    private void OnTriggerEnter(Collider other)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (other.gameObject.name == "LittleBall")
+        if (!isClicked)
         {
-            Destroy(other.gameObject);
             SetIsClicked(true);
             ChangeColor(clickColor);
         }
-    }*/
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!isClicked)

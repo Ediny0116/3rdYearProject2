@@ -1,3 +1,4 @@
+// PlayerAnimation.cs
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
@@ -25,5 +26,12 @@ public class PlayerAnimation : MonoBehaviour
     public void OnDeathAnimationComplete()
     {
         GetComponent<PlayerMove>().BackToIdle();
+    }
+
+    public void WalkAnimation(float verticalInput, float horizontalInput)
+    {
+        bool isMoving = (verticalInput != 0 || horizontalInput != 0);
+
+        animator.SetBool("isWalk", isMoving);
     }
 }

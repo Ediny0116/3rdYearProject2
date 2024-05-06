@@ -9,9 +9,18 @@ public class BoardCheck : MonoBehaviour
     public int[] ClickCountInLine=new int[12];
     public GameObject ScoreUI;
     public List<GameObject> LightballList = new List<GameObject>();
+    public Color[] LightColor=new Color[3];
 
     int LineCount = 0;
 
+    private void Start()
+    {
+        foreach (GameObject LB in LightballList)
+        {
+            LB.GetComponent<Renderer>().material.DisableKeyword("_EMISSION");
+            LB.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        }
+    }
     public void AddToLine(GameObject chess)
     {
         ScoreUI.GetComponent<Score>().UpdateScore(1);
@@ -112,12 +121,13 @@ public class BoardCheck : MonoBehaviour
         else if (isLineFull[1] || isLineFull[2] || isLineFull[0])
             ClickCountInLine[11] -= 1;
     }
-
     void AddLineCount()
     {
-        if(LineCount<5)
-        LightballList[LineCount].GetComponent<Renderer> ().material.EnableKeyword("_EMISSION"); ;
+        if(LineCount < 15)
+        LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]);
+        Debug.Log("LB " + LightballList[LineCount % 5].gameObject);
+        Debug.Log("Line" + LineCount);
+        Debug.Log("LightLv "+LineCount/5);
         LineCount++;
-
     }
 }
