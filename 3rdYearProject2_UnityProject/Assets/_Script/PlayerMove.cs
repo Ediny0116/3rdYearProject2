@@ -1,3 +1,4 @@
+// PlayerMove.cs
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -32,12 +33,11 @@ public class PlayerMove : MonoBehaviour
             float horizontalInput = Input.GetAxis("Horizontal");
             float verticalInput = Input.GetAxis("Vertical");
 
-            if (verticalInput != 0 || horizontalInput != 0)
-            {
-                float transAmt = verticalInput;
-                float rotAmt = horizontalInput;
-                MoveAndRotate(transAmt, rotAmt);
-            }
+            float transAmt = verticalInput;
+            float rotAmt = horizontalInput;
+            MoveAndRotate(transAmt, rotAmt);
+
+            // No need to call WalkAnimation here
         }
 
         // Check if the player is at position (0, 8, 0)
@@ -58,6 +58,9 @@ public class PlayerMove : MonoBehaviour
         Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
 
         transform.position += moveAmt * Time.deltaTime;
+
+        // Call WalkAnimation based on user input
+        GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
     }
 
     private void OnTriggerEnter(Collider other)
