@@ -32,6 +32,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         bool isMoving = (verticalInput != 0 || horizontalInput != 0);
 
-        animator.SetBool("isWalk", isMoving);
+        //animator.SetBool("isWalk", isMoving);
+        animator.SetBool("isPickUp", isMoving);
     }
 }
