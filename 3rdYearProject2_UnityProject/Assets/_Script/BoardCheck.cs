@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BoardCheck : MonoBehaviour
@@ -10,6 +11,8 @@ public class BoardCheck : MonoBehaviour
     public GameObject ScoreUI;
     public List<GameObject> LightballList = new List<GameObject>();
     public Color[] LightColor=new Color[3];
+
+    public List<TextMeshPro> DebugText = new List<TextMeshPro>();
 
     int LineCount = 0;
 
@@ -33,6 +36,8 @@ public class BoardCheck : MonoBehaviour
         ClickCountInLine[LineX]++;
         //Debug.Log("Line " + LineX + " +1");
 
+        #region 斜線
+        /*
         if (ChessNum % 6 == 0)
         {
             ClickCountInLine[10]++;
@@ -43,12 +48,19 @@ public class BoardCheck : MonoBehaviour
             ClickCountInLine[11]++;
             //Debug.Log("Line " + 11 + " +1");
         }
+        */
+        #endregion
+
         CheckIsLineFull(LineY, LineX);
+        DebugText[LineY].text = ClickCountInLine[LineY] + "";
+        DebugText[LineX].text = ClickCountInLine[LineX] + "";
     }
 
     void CheckIsLineFull(int lineY,int lineX)
     {
-        bool[] isLineFull = new bool[4];
+        bool[] isLineFull = new bool[2];
+        isLineFull[0] = false;
+        isLineFull[1] = false;
         if(ClickCountInLine[lineY] == 5)
         {
             ScoreUI.GetComponent<Score>().UpdateScore(5);
@@ -61,73 +73,61 @@ public class BoardCheck : MonoBehaviour
             AddLineCount();
             isLineFull[1] = true;
         }
-        if (ClickCountInLine[10] == 5)
+        //兩條線都沒滿
+        if (!isLineFull[0] && !isLineFull[1])
         {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            isLineFull[2] = true;
+            return;
         }
-        if (ClickCountInLine[11] == 5)
-        {
-            ScoreUI.GetComponent<Score>().UpdateScore(5);
-            AddLineCount();
-            isLineFull[3] = true;
-        }
-
-        if (isLineFull[0])
+        //只有Y軸線滿
+        else if (isLineFull[0] && !isLineFull[1])
         {
             int ChessNum = (lineY % 5) * 5;
             for (int i = 0; i < 5; i++)
             {
+                ClickCountInLine[i] -= 1;
                 ChessList[ChessNum + i].GetComponent<ChessBoard>().SetIsClicked(false);
             }
             ClickCountInLine[lineY] = 0;
         }
-        else if (isLineFull[1]|| isLineFull[2]||isLineFull[3])
-            ClickCountInLine[lineY] -= 1;
-
-        if (isLineFull[1])
+        //只有X軸線滿
+        else if (!isLineFull[0] && isLineFull[1])
         {
             int ChessNum = lineX;
             for (int i = 0; i < 5; i++)
             {
-                ChessList[ChessNum + i*5].GetComponent<ChessBoard>().SetIsClicked(false);
+                ClickCountInLine[i + 5] -= 1;
+                ChessList[ChessNum + i * 5].GetComponent<ChessBoard>().SetIsClicked(false);
             }
             ClickCountInLine[lineX] = 0;
         }
-        else if (isLineFull[0] || isLineFull[2] || isLineFull[3])
-            ClickCountInLine[lineX] -= 1;
-
-        if (isLineFull[2])
+        //Y軸線與X軸線都滿
+        else if (isLineFull[0] && isLineFull[1])
         {
+            int ChessNum = (lineY % 5) * 5;
             for (int i = 0; i < 5; i++)
             {
-                ChessList[i * 6].GetComponent<ChessBoard>().SetIsClicked(false);
+                ClickCountInLine[i] -= 1;
+                ChessList[ChessNum + i].GetComponent<ChessBoard>().SetIsClicked(false);
             }
-            ClickCountInLine[10] = 0;
-        }
-        else if (isLineFull[1] || isLineFull[0] || isLineFull[3])
-            ClickCountInLine[10] -= 1;
-
-        if (isLineFull[3])
-        {
-            int ChessNum = 4;
+            ChessNum = lineX;
             for (int i = 0; i < 5; i++)
             {
-                ChessList[ChessNum+(i * 4)].GetComponent<ChessBoard>().SetIsClicked(false);
+                ClickCountInLine[i + 5] -= 1;
+                ChessList[ChessNum + i * 5].GetComponent<ChessBoard>().SetIsClicked(false);
             }
-            ClickCountInLine[11] = 0;
+            ClickCountInLine[lineY] = 0;
+            ClickCountInLine[lineX] = 0;
         }
-        else if (isLineFull[1] || isLineFull[2] || isLineFull[0])
-            ClickCountInLine[11] -= 1;
     }
     void AddLineCount()
     {
         if(LineCount < 15)
         LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]);
+        /*
         Debug.Log("LB " + LightballList[LineCount % 5].gameObject);
         Debug.Log("Line" + LineCount);
         Debug.Log("LightLv "+LineCount/5);
+        */
         LineCount++;
     }
 }
