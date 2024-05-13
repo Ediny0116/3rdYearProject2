@@ -4,7 +4,8 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float maxRotate = 5f;
-    public float maxSpeed = 3f;
+    public float maxSpeed;
+    public float originalMaxSpeed = 3f;
 
     private Vector3 rVec;
     private Vector3 fVec;
@@ -36,8 +37,6 @@ public class PlayerMove : MonoBehaviour
             float transAmt = verticalInput;
             float rotAmt = horizontalInput;
             MoveAndRotate(transAmt, rotAmt);
-
-            // No need to call WalkAnimation here
         }
 
         // Check if the player is at position (0, 8, 0)
@@ -45,6 +44,7 @@ public class PlayerMove : MonoBehaviour
         {
             isDead = false;
             canMove = true;
+            //BackToIdle();
         }
     }
 
@@ -67,17 +67,17 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.CompareTag("Water"))
         {
-            isDead = true;
-            canMove = false;
-            GetComponent<PlayerAnimation>().StartDeathAnimation();
+            maxSpeed = maxSpeed / 2f;
+            animator.SetBool("isDead",true);
         }
     }
-
-    // Animation Event method called when death animation is complete
-    public void BackToIdle()
+    private void OnTriggerExit(Collider other)
     {
-        isDead = false;
-        canMove = true;
-        animator.SetBool("IsDead", false);
+        if (other.CompareTag("Water"))
+        {
+            //back to normal speed
+            maxSpeed = originalMaxSpeed;
+            animator.SetBool("isDead", false);
+        }
     }
 }
