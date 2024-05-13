@@ -48,6 +48,7 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (collision.gameObject.CompareTag("BigBall"))
         {
+            Debug.Log(this.gameObject.name);
             Destroy(collision.gameObject);
             SetChessIsClicked(true);
             ChangeColor(bigClickColor);
