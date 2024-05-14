@@ -11,7 +11,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 fVec;
 
     private Animator animator;
-    private ObjectGrabbable objectGrabbable;
+    private PlayerPickUpDrop playerPickUpDrop;
 
     void Start()
     {
@@ -22,6 +22,7 @@ public class PlayerMove : MonoBehaviour
         fVec = tempV;
 
         animator = GetComponent<Animator>();
+        playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
     }
 
     void Update()
@@ -37,18 +38,19 @@ public class PlayerMove : MonoBehaviour
         // Check if the player is picking up the ball
         if (Input.GetKeyDown(KeyCode.E))
         {
-            animator.SetBool("isPickUp", true);
-            animator.SetBool("afterPickUp",true);
+            // If objectGrabbable is null in PlayerPickUpDrop, the ball is not grabbed
+            if (playerPickUpDrop.objectGrabbable != null)
+            {
+                animator.SetBool("isPickUp", true);
+            }
         }
 
 
         //can not working IDK why-------------
-        /*if (Input.GetKeyDown(KeyCode.Mouse0)&&objectGrabbable!=null)
-        {
-            animator.SetBool("isPickUp", false);
-            animator.SetBool("afterPickUp", false);
-            animator.SetBool("isThrow", true);
-        }*/
+        //if (Input.GetKeyDown(KeyCode.Mouse0)&& playerPickUpDrop.objectGrabbable == null)
+        //{
+        //    animator.SetBool("isThrow", true);
+        //}
         //------------------------
     }
 
@@ -65,24 +67,16 @@ public class PlayerMove : MonoBehaviour
 
         // Call WalkAnimation based on user input
         GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+
+        if(playerPickUpDrop.objectGrabbable != null)
+        {
+            GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
+        }
     }
 
     
     private void OnTriggerEnter(Collider other)
     {
-        /*//when player pick up: -------------------
-        if (Input.GetKeyDown(KeyCode.E)&& objectGrabbable != null)
-        {
-            if(other.CompareTag("BigBall") || other.CompareTag("LittleBall"))
-            {
-                animator.SetBool("isPickUp", true);
-            }
-        }
-        else
-        {
-            //animator.SetBool("isPickUp",false);
-        }*/
-
         //when touch water, Player speed slow
         if (other.CompareTag("Water"))
         {

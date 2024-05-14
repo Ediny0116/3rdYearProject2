@@ -12,7 +12,7 @@ public class PlayerPickUpDrop : MonoBehaviour {
     [SerializeField] private LayerMask RayCastLayerMask;
     private GameObject ball;
     private List<GameObject> ballList = new List<GameObject>();
-    private ObjectGrabbable objectGrabbable;
+    public ObjectGrabbable objectGrabbable;
     [SerializeField] private float throwForce = 20f;
     private void Update()
     {

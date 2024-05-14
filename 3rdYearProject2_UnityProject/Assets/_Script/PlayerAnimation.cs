@@ -15,16 +15,23 @@ public class PlayerAnimation : MonoBehaviour
 
         animator.SetBool("isWalk", isMoving);
     }
-
-    public void OnPickUpAnimationEnd()
+    public void PickUpRunAnimation(float verticalInput, float horizontalInput)
     {
-        animator.SetBool("isPickUp", false);
-        animator.SetBool("afterPickUp", true); // 触?PickUp_stay??
+        bool isMoving = (verticalInput != 0 || horizontalInput != 0);
+
+        animator.SetBool("isPickUpRun", isMoving);
     }
 
-    // 添加在??事件中?用的方法
+    public void PickUpTurnToPickUpStay()
+    {
+        animator.SetBool("afterPickUp", true);
+    }
     public void AfterPickUpAnimation()
     {
         animator.SetBool("afterPickUp", false);
+    }
+    public void AfterThrow()
+    {
+        animator.SetBool("afterThrow", true);
     }
 }
