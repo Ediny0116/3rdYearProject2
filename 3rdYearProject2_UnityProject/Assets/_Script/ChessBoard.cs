@@ -77,6 +77,15 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
             }
         }
+        if (collision.gameObject.CompareTag("BigBall"))
+        {
+            if (!isClicked)
+            {
+                Destroy(collision.gameObject);
+                SetIsClicked(true);
+                ChangeColor(clickColor);
+            }
+        }
     }
 
     public void ChangeColor(Color color)

@@ -11,7 +11,7 @@ public class BoardCheck : MonoBehaviour
     public GameObject ScoreUI;
     public List<GameObject> LightballList = new List<GameObject>();
     public Color[] LightColor=new Color[3];
-
+    public float LightIntensity=10;
     public List<TextMeshPro> DebugText = new List<TextMeshPro>();
 
     int LineCount = 0;
@@ -54,6 +54,11 @@ public class BoardCheck : MonoBehaviour
         CheckIsLineFull(LineY, LineX);
         DebugText[LineY].text = ClickCountInLine[LineY] + "";
         DebugText[LineX].text = ClickCountInLine[LineX] + "";
+    }
+
+    public void BigAddToLine(GameObject chess,int dir)
+    {
+
     }
 
     void CheckIsLineFull(int lineY,int lineX)
@@ -122,7 +127,7 @@ public class BoardCheck : MonoBehaviour
     void AddLineCount()
     {
         if(LineCount < 15)
-        LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]);
+        LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]*LightIntensity);
         /*
         Debug.Log("LB " + LightballList[LineCount % 5].gameObject);
         Debug.Log("Line" + LineCount);
