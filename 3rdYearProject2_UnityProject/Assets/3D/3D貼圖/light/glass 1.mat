@@ -26,7 +26,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHAPREMULTIPLY_ON
-  - _METALLICSPECGLOSSMAP
   - _OCCLUSIONMAP
   - _PARALLAXMAP
   - _SURFACE_TYPE_TRANSPARENT
@@ -46,7 +45,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 21a217aa3056ba04b90b49b09e9be9ec, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -70,11 +69,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 21a217aa3056ba04b90b49b09e9be9ec, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 5f2ce66285f7ed74ea298fb1790a4b37, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -135,8 +134,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.6073498, b: 0.7987421, a: 0.627451}
-    - _Color: {r: 0, g: 0.60734975, b: 0.7987421, a: 0.627451}
+    - _BaseColor: {r: 0.7786084, g: 0.9205015, b: 0.95597476, a: 0.7019608}
+    - _Color: {r: 0.7786084, g: 0.9205015, b: 0.95597476, a: 0.7019608}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
