@@ -44,14 +44,11 @@ public class PlayerMove : MonoBehaviour
                 animator.SetBool("isPickUp", true);
             }
         }
-
-
-        //can not working IDK why-------------
-        //if (Input.GetKeyDown(KeyCode.Mouse0)&& playerPickUpDrop.objectGrabbable == null)
-        //{
-        //    animator.SetBool("isThrow", true);
-        //}
-        //------------------------
+        // Check if the player is throwing the ball
+        /*if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.SetBool("isThrow", true);
+        }*/
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
@@ -65,8 +62,12 @@ public class PlayerMove : MonoBehaviour
 
         transform.position += moveAmt * Time.deltaTime;
 
+
         // Call WalkAnimation based on user input
-        GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+        if (playerPickUpDrop.objectGrabbable == null)
+        {
+            GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+        }
 
         if(playerPickUpDrop.objectGrabbable != null)
         {
