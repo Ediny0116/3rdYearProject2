@@ -8742,7 +8742,7 @@ GameObject:
   - component: {fileID: 1571586800}
   m_Layer: 0
   m_Name: Respawn
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8756,7 +8756,7 @@ Transform:
   m_GameObject: {fileID: 1571586799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.61, z: 0}
+  m_LocalPosition: {x: 0, y: 6.6, z: -1.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10030,6 +10030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4987dcf29868314498b4723e551bd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RespawnPoint: {fileID: 1571586800}
   Lball: {fileID: 1010071891000600615, guid: 03a443370d8ef3a4092f508c515200fc, type: 3}
   Bball: {fileID: 6740106023405628887, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
 --- !u!4 &1840766227
@@ -11318,7 +11319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2048972450}
   m_Layer: 0
-  m_Name: Lights
+  m_Name: LightBalls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11897,10 +11898,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2621721796729111704, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 5677857733416296137, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
+      propertyPath: RespawnPoint
+      value: 
+      objectReference: {fileID: 1571586800}
     - target: {fileID: 6740106023405628887, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
       propertyPath: m_Name
       value: BigBall
@@ -11909,14 +11910,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7326517045385885605, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2970912551486934764, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
-    - {fileID: 7183743712863441479, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b1aacf21e6267046b1b77f15e7e72c8, type: 3}
@@ -11934,15 +11929,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3623347032471946228, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 3623347032471946228, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.46
+      value: 0.62
       objectReference: {fileID: 0}
     - target: {fileID: 3623347032471946228, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.16
+      value: -2.95
       objectReference: {fileID: 0}
     - target: {fileID: 3623347032471946228, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
       propertyPath: m_LocalRotation.w
@@ -11988,6 +11983,10 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -1.517163e-16
       objectReference: {fileID: 0}
+    - target: {fileID: 7078087646163330905, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
+      propertyPath: RespawnPoint
+      value: 
+      objectReference: {fileID: 1571586800}
     - target: {fileID: 8424259532536480748, guid: 3c3cc301775a0d244a0c9694a1c31278, type: 3}
       propertyPath: BigBallBox
       value: 
@@ -12085,6 +12084,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: LittleBall
       objectReference: {fileID: 0}
+    - target: {fileID: 1010071891000600615, guid: 03a443370d8ef3a4092f508c515200fc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3042405361743164550, guid: 03a443370d8ef3a4092f508c515200fc, type: 3}
+      propertyPath: RespawnPoint
+      value: 
+      objectReference: {fileID: 1571586800}
     - target: {fileID: 8611247953556539424, guid: 03a443370d8ef3a4092f508c515200fc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.97
@@ -12174,12 +12181,12 @@ SceneRoots:
   - {fileID: 1597288142}
   - {fileID: 23214746}
   - {fileID: 388473699}
+  - {fileID: 2048972450}
   - {fileID: 1571586800}
   - {fileID: 1188659278}
   - {fileID: 943114472}
   - {fileID: 2994510634078815613}
   - {fileID: 2806087466298544258}
   - {fileID: 5469345661022050355}
-  - {fileID: 2048972450}
   - {fileID: 521127511}
   - {fileID: 327562312}

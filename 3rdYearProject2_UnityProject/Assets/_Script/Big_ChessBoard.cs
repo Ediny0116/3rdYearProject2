@@ -34,26 +34,6 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         ChangeColor(originalColors);
     }
-    /*
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.name == "BigBall")
-        {
-            Destroy(other.gameObject);
-            SetChessIsClicked(true);
-            ChangeColor(bigClickColor);
-        }
-    }*/
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("BigBall"))
-        {
-            Debug.Log(this.gameObject.name);
-            Destroy(collision.gameObject);
-            SetChessIsClicked(true);
-            ChangeColor(bigClickColor);
-        }
-    }
 
     private void ChangeColor(Color color)
     {
@@ -72,14 +52,4 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             chessBoard[i].GetComponent<ChessBoard>().ChangeColor(colors[i]);
         }
     }
-
-    //-----------------
-    void SetChessIsClicked(bool value)
-    {   //將大棋格的狀態傳給小棋格
-        foreach (GameObject cell in chessBoard)
-        {
-            cell.GetComponent<ChessBoard>().SetIsClicked(value);
-        }
-    }
-    //-----------------
 }

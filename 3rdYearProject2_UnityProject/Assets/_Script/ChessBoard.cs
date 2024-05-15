@@ -81,9 +81,35 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (!isClicked)
             {
-                Destroy(collision.gameObject);
-                SetIsClicked(true);
-                ChangeColor(clickColor);
+                Vector2 ballLocalPos = new Vector2(this.transform.InverseTransformPoint(collision.gameObject.transform.position).x, this.transform.InverseTransformPoint(collision.gameObject.transform.position).z);
+                Debug.Log("LC " + ballLocalPos);
+                if (MathF.Abs(ballLocalPos.x) < 0.5 && MathF.Abs(ballLocalPos.y) < 0.5)
+                {
+                    if (ballLocalPos.x < 0 && ballLocalPos.y >= 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 0);
+
+                    }
+                    else if (ballLocalPos.x >= 0 && ballLocalPos.y >= 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 1);
+
+                    }
+                    else if (ballLocalPos.x < 0 && ballLocalPos.y < 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 2);
+
+                    }
+                    else if (ballLocalPos.x >= 0 && ballLocalPos.y < 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 3);
+
+                    }
+                }
             }
         }
     }
@@ -109,6 +135,7 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 isClicked = value;
                 boardCheck.AddToLine(this.gameObject);
+                GetComponent<Renderer>().material.color = clickColor;
             }
         }
         else
