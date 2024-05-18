@@ -5,8 +5,6 @@ using UnityEngine.UIElements;
 
 public class PlayerPickUpDrop : MonoBehaviour {
 
-
-    [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private Transform objectGrabPointTransform;
     [SerializeField] private GameObject BigBallBox;
     [SerializeField] private LayerMask RayCastLayerMask;
