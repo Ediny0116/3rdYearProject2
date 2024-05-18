@@ -68,7 +68,7 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (!isClicked)
             {
                 Vector2 ballLocalPos =new Vector2( this.transform.InverseTransformPoint(collision.gameObject.transform.position).x, this.transform.InverseTransformPoint(collision.gameObject.transform.position).z);
-                Debug.Log("LC "+ballLocalPos);
+                //Debug.Log("LC "+ballLocalPos);
                 if (MathF.Abs(ballLocalPos.x)<0.5&&MathF.Abs(ballLocalPos.y)<0.5)
                 {
                     Destroy(collision.gameObject);
@@ -82,7 +82,7 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             if (!isClicked)
             {
                 Vector2 ballLocalPos = new Vector2(this.transform.InverseTransformPoint(collision.gameObject.transform.position).x, this.transform.InverseTransformPoint(collision.gameObject.transform.position).z);
-                Debug.Log("LC " + ballLocalPos);
+                //Debug.Log("LC " + ballLocalPos);
                 if (MathF.Abs(ballLocalPos.x) < 0.5 && MathF.Abs(ballLocalPos.y) < 0.5)
                 {
                     if (ballLocalPos.x < 0 && ballLocalPos.y >= 0)
