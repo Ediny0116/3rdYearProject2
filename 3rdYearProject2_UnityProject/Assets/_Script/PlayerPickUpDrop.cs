@@ -5,14 +5,12 @@ using UnityEngine.UIElements;
 
 public class PlayerPickUpDrop : MonoBehaviour {
 
-
-    [SerializeField] private Transform playerCameraTransform;
     [SerializeField] private Transform objectGrabPointTransform;
     [SerializeField] private GameObject BigBallBox;
     [SerializeField] private LayerMask RayCastLayerMask;
     private GameObject ball;
     private List<GameObject> ballList = new List<GameObject>();
-    private ObjectGrabbable objectGrabbable;
+    public ObjectGrabbable objectGrabbable;
     [SerializeField] private float throwForce = 20f;
     private void Update()
     {
@@ -55,12 +53,7 @@ public class PlayerPickUpDrop : MonoBehaviour {
                     // Not carrying an object, try to grab
                     objectGrabbable = ball.GetComponent<ObjectGrabbable>();
                     objectGrabbable.Grab(objectGrabPointTransform);
-
-                    if (!GetIsBigBall())
-                    {
-                        BigBallBox.SetActive(false);
-                    }
-                    else
+                    if (GetIsBigBall())
                     {
                         BigBallBox.SetActive(true);
                     }
@@ -71,6 +64,7 @@ public class PlayerPickUpDrop : MonoBehaviour {
                 // Currently carrying something, drop
                 objectGrabbable.Drop();
                 objectGrabbable = null;
+                BigBallBox.SetActive(false);
             }
         }
     }
@@ -79,6 +73,7 @@ public class PlayerPickUpDrop : MonoBehaviour {
         
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            BigBallBox.SetActive(false);
             if (objectGrabbable != null)
             {
                 // Currently carrying something, throw

@@ -4,15 +4,14 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float maxRotate = 5f;
-    public float maxSpeed = 3f;
+    public float maxSpeed;
+    public float originalMaxSpeed = 3f;
 
     private Vector3 rVec;
     private Vector3 fVec;
 
-    private bool canMove = true;
-    public bool isDead = false;
-
     private Animator animator;
+    private PlayerPickUpDrop playerPickUpDrop;
 
     void Start()
     {
@@ -23,29 +22,33 @@ public class PlayerMove : MonoBehaviour
         fVec = tempV;
 
         animator = GetComponent<Animator>();
+        playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
     }
 
     void Update()
     {
-        if (canMove && !isDead)
+        // Get Input
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        float transAmt = verticalInput;
+        float rotAmt = horizontalInput;
+        MoveAndRotate(transAmt, rotAmt);
+
+        // Check if the player is picking up the ball
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            // Get Input
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-
-            float transAmt = verticalInput;
-            float rotAmt = horizontalInput;
-            MoveAndRotate(transAmt, rotAmt);
-
-            // No need to call WalkAnimation here
+            // If objectGrabbable is null in PlayerPickUpDrop, the ball is not grabbed
+            if (playerPickUpDrop.objectGrabbable != null)
+            {
+                animator.SetBool("isPickUp", true);
+            }
         }
-
-        // Check if the player is at position (0, 8, 0)
-        if (transform.position == new Vector3(0f, 8f, 0f))
+        // Check if the player is throwing the ball
+        /*if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            isDead = false;
-            canMove = true;
-        }
+            animator.SetBool("isThrow", true);
+        }*/
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
@@ -59,25 +62,37 @@ public class PlayerMove : MonoBehaviour
 
         transform.position += moveAmt * Time.deltaTime;
 
-        // Call WalkAnimation based on user input
-        GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Water"))
+        // Call WalkAnimation based on user input
+        if (playerPickUpDrop.objectGrabbable == null)
         {
-            isDead = true;
-            canMove = false;
-            GetComponent<PlayerAnimation>().StartDeathAnimation();
+            GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+        }
+
+        if(playerPickUpDrop.objectGrabbable != null)
+        {
+            GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
         }
     }
 
-    // Animation Event method called when death animation is complete
-    public void BackToIdle()
+    
+    private void OnTriggerEnter(Collider other)
     {
-        isDead = false;
-        canMove = true;
-        animator.SetBool("IsDead", false);
+        //when touch water, Player speed slow
+        if (other.CompareTag("Water"))
+        {
+            maxSpeed = maxSpeed / 2f;
+            animator.SetBool("isDead", true);
+        }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            //back to normal speed
+            maxSpeed = originalMaxSpeed;
+            animator.SetBool("isDead", false);
+        }
+    }
+    
 }

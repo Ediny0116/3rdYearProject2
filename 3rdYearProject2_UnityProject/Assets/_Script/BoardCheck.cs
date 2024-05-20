@@ -1,17 +1,15 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class BoardCheck : MonoBehaviour
 {
-    public List<GameObject> ChessList=new List<GameObject>();
-    public int[] ClickCountInLine=new int[12];
+    public List<GameObject> ChessList = new List<GameObject>();
+    public int[] ClickCountInLine = new int[12];
     public GameObject ScoreUI;
     public List<GameObject> LightballList = new List<GameObject>();
-    public Color[] LightColor=new Color[3];
-
+    public Color[] LightColor = new Color[3];
+    public float LightIntensity = 10;
     public List<TextMeshPro> DebugText = new List<TextMeshPro>();
 
     int LineCount = 0;
@@ -27,8 +25,8 @@ public class BoardCheck : MonoBehaviour
     public void AddToLine(GameObject chess)
     {
         ScoreUI.GetComponent<Score>().UpdateScore(1);
-        int ChessNum=ChessList.IndexOf(chess);
-        int LineY = (ChessNum / 5)+5;
+        int ChessNum = ChessList.IndexOf(chess);
+        int LineY = (ChessNum / 5) + 5;
         int LineX = ChessNum % 5;
 
         ClickCountInLine[LineY]++;
@@ -56,16 +54,60 @@ public class BoardCheck : MonoBehaviour
         DebugText[LineX].text = ClickCountInLine[LineX] + "";
     }
 
-    void CheckIsLineFull(int lineY,int lineX)
+    public void BigAddToLine(GameObject chess, int dir)
+    //dir代表大球碰撞範圍內的其他三個棋子的方向 0:左上 1:右上 2:左下 3:右下
+    {
+        int ChessNum = ChessList.IndexOf(chess);
+        if (ChessNum % 5 == 0 && (dir == 0 || dir == 1)) //上/下沒有棋子
+            dir += 2;
+        else if ((ChessNum + 1) % 5 == 0 && (dir == 2 || dir == 3))
+            dir -= 2;
+        if (ChessNum < 5 && (dir == 0 || dir == 2)) //左/右沒有棋子
+            dir += 1;
+        else if (ChessNum > 19 && (dir == 1 || dir == 3))
+            dir -= 1;
+
+        Debug.Log("棋子" + ChessNum);
+        Debug.Log("最終方向" + dir);
+        switch (dir)
+        {
+            case 0:
+                ChessList[ChessNum].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 1].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 5].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 6].GetComponent<ChessBoard>().SetIsClicked(true);
+                break;
+            case 1:
+                ChessList[ChessNum].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 1].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 5].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 4].GetComponent<ChessBoard>().SetIsClicked(true);
+                break;
+            case 2:
+                ChessList[ChessNum].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 1].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 5].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum - 4].GetComponent<ChessBoard>().SetIsClicked(true);
+                break;
+            case 3:
+                ChessList[ChessNum].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 1].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 5].GetComponent<ChessBoard>().SetIsClicked(true);
+                ChessList[ChessNum + 6].GetComponent<ChessBoard>().SetIsClicked(true);
+                break;
+        }
+    }
+
+    void CheckIsLineFull(int lineY, int lineX)
     {
         bool[] isLineFull = new bool[2];
         isLineFull[0] = false;
         isLineFull[1] = false;
-        if(ClickCountInLine[lineY] == 5)
+        if (ClickCountInLine[lineY] == 5)
         {
             ScoreUI.GetComponent<Score>().UpdateScore(5);
             AddLineCount();
-            isLineFull[0]=true;
+            isLineFull[0] = true;
         }
         if (ClickCountInLine[lineX] == 5)
         {
@@ -121,8 +163,8 @@ public class BoardCheck : MonoBehaviour
     }
     void AddLineCount()
     {
-        if(LineCount < 15)
-        LightballList[LineCount%5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount/5]);
+        if (LineCount < 15)
+            LightballList[LineCount % 5].GetComponent<Renderer>().material.SetColor("_EmissionColor", LightColor[LineCount / 5] * LightIntensity);
         /*
         Debug.Log("LB " + LightballList[LineCount % 5].gameObject);
         Debug.Log("Line" + LineCount);

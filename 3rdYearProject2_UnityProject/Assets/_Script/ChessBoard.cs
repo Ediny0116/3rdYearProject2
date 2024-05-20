@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -62,13 +63,53 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     */
     private void OnCollisionEnter(Collision collision)
     {
-        if (!isClicked)
+        if (collision.gameObject.CompareTag("LittleBall"))
         {
-            if (collision.gameObject.CompareTag("LittleBall"))
+            if (!isClicked)
             {
-                Destroy(collision.gameObject);
-                SetIsClicked(true);
-                ChangeColor(clickColor);
+                Vector2 ballLocalPos =new Vector2( this.transform.InverseTransformPoint(collision.gameObject.transform.position).x, this.transform.InverseTransformPoint(collision.gameObject.transform.position).z);
+                //Debug.Log("LC "+ballLocalPos);
+                if (MathF.Abs(ballLocalPos.x)<0.5&&MathF.Abs(ballLocalPos.y)<0.5)
+                {
+                    Destroy(collision.gameObject);
+                    SetIsClicked(true);
+                    ChangeColor(clickColor);
+                }
+            }
+        }
+        if (collision.gameObject.CompareTag("BigBall"))
+        {
+            if (!isClicked)
+            {
+                Vector2 ballLocalPos = new Vector2(this.transform.InverseTransformPoint(collision.gameObject.transform.position).x, this.transform.InverseTransformPoint(collision.gameObject.transform.position).z);
+                //Debug.Log("LC " + ballLocalPos);
+                if (MathF.Abs(ballLocalPos.x) < 0.5 && MathF.Abs(ballLocalPos.y) < 0.5)
+                {
+                    if (ballLocalPos.x < 0 && ballLocalPos.y >= 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 0);
+
+                    }
+                    else if (ballLocalPos.x >= 0 && ballLocalPos.y >= 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 1);
+
+                    }
+                    else if (ballLocalPos.x < 0 && ballLocalPos.y < 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 2);
+
+                    }
+                    else if (ballLocalPos.x >= 0 && ballLocalPos.y < 0)
+                    {
+                        Destroy(collision.gameObject);
+                        boardCheck.BigAddToLine(this.gameObject, 3);
+
+                    }
+                }
             }
         }
     }
@@ -94,6 +135,7 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             {
                 isClicked = value;
                 boardCheck.AddToLine(this.gameObject);
+                GetComponent<Renderer>().material.color = clickColor;
             }
         }
         else

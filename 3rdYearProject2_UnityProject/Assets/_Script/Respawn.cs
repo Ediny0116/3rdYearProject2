@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
+    public Transform RespawnPoint;
+
+    private void Start()
+    {
+        RespawnPoint = GameObject.FindGameObjectWithTag("Respawn").transform;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Water"))
@@ -17,7 +23,7 @@ public class Respawn : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // Move the player to the specified position (0, 8, 0)
-        transform.position = new Vector3(0f, 8f, 0f);
+        transform.position = RespawnPoint.position;
 
         // Reset player velocity
         if (TryGetComponent<Rigidbody>(out Rigidbody rb))

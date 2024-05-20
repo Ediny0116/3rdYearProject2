@@ -1,4 +1,3 @@
-// PlayerAnimation.cs
 using UnityEngine;
 
 public class PlayerAnimation : MonoBehaviour
@@ -10,29 +9,29 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void CheckAndStartDeathAnimation(bool isPlayerDead)
-    {
-        if (isPlayerDead)
-        {
-            StartDeathAnimation();
-        }
-    }
-
-    public void StartDeathAnimation()
-    {
-        animator.SetBool("IsDead", true);
-    }
-
-    public void OnDeathAnimationComplete()
-    {
-        GetComponent<PlayerMove>().BackToIdle();
-    }
-
     public void WalkAnimation(float verticalInput, float horizontalInput)
     {
         bool isMoving = (verticalInput != 0 || horizontalInput != 0);
 
-        //animator.SetBool("isWalk", isMoving);
-        animator.SetBool("isPickUp", isMoving);
+        animator.SetBool("isWalk", isMoving);
+    }
+    public void PickUpRunAnimation(float verticalInput, float horizontalInput)
+    {
+        bool isMoving = (verticalInput != 0 || horizontalInput != 0);
+
+        animator.SetBool("isPickUpRun", isMoving);
+    }
+
+    public void PickUpTurnToPickUpStay()
+    {
+        animator.SetBool("afterPickUp", true);
+    }
+    public void AfterPickUpAnimation()
+    {
+        animator.SetBool("afterPickUp", false);
+    }
+    public void AfterThrow()
+    {
+        animator.SetBool("afterThrow", true);
     }
 }

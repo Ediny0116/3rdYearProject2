@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1421030089323551582}
   - component: {fileID: 5165828821036241063}
   - component: {fileID: 3042405361743164550}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: LittleBall
   m_TagString: LittleBall
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.56, y: 0.849, z: -0.52}
-  m_LocalScale: {x: 0.73482996, y: 0.73482996, z: 0.73482996}
+  m_LocalScale: {x: 0.8549746, y: 0.8549746, z: 0.8549746}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2958887179632322158}
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0669d0bd93b6d9e4bbcaed93223c2dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RespawnPoint: {fileID: 0}
 --- !u!1001 &3358187013932859781
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -229,6 +230,18 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 17d0997d223824a46990258acd039814, type: 3}
       propertyPath: m_Name
       value: "\u5C0F\u7403"
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 17d0997d223824a46990258acd039814, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654934372253022927, guid: 17d0997d223824a46990258acd039814, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824638177861515733, guid: 17d0997d223824a46990258acd039814, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
