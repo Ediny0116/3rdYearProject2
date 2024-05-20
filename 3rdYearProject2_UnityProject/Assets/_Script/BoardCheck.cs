@@ -67,8 +67,8 @@ public class BoardCheck : MonoBehaviour
         else if (ChessNum > 19 && (dir == 1 || dir == 3))
             dir -= 1;
 
-        Debug.Log("棋子" + ChessNum);
-        Debug.Log("最終方向" + dir);
+        //Debug.Log("棋子" + ChessNum);
+        //Debug.Log("最終方向" + dir);
         switch (dir)
         {
             case 0:
