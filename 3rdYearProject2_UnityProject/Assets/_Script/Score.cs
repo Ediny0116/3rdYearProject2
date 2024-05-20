@@ -20,4 +20,9 @@ public class Score : MonoBehaviour
         ScoreCount += score;
         scoreUI.text = scoreString + ScoreCount;
     }
+
+    public int GetScore()
+    {
+        return ScoreCount;
+    }
 }
