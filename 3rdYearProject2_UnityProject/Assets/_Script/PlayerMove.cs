@@ -45,10 +45,11 @@ public class PlayerMove : MonoBehaviour
             }
         }
         // Check if the player is throwing the ball
-        /*if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             animator.SetBool("isThrow", true);
-        }*/
+            animator.SetBool("isPickUp", false);
+        }
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
