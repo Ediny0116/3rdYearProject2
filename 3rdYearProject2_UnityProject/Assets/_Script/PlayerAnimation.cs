@@ -32,6 +32,6 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void AfterThrow()
     {
-        animator.SetBool("afterThrow", true);
+        animator.SetBool("isThrow", false);
     }
 }
