@@ -34,22 +34,6 @@ public class PlayerMove : MonoBehaviour
         float transAmt = verticalInput;
         float rotAmt = horizontalInput;
         MoveAndRotate(transAmt, rotAmt);
-
-        // Check if the player is picking up the ball
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // If objectGrabbable is null in PlayerPickUpDrop, the ball is not grabbed
-            if (playerPickUpDrop.objectGrabbable != null)
-            {
-                animator.SetBool("isPickUp", true);
-            }
-        }
-        // Check if the player is throwing the ball
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            animator.SetBool("isThrow", true);
-            animator.SetBool("isPickUp", false);
-        }
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)

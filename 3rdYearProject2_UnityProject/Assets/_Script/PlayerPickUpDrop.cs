@@ -12,6 +12,13 @@ public class PlayerPickUpDrop : MonoBehaviour {
     private List<GameObject> ballList = new List<GameObject>();
     public ObjectGrabbable objectGrabbable;
     [SerializeField] private float throwForce = 20f;
+
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         if (ballList.Count!=0)
@@ -57,14 +64,17 @@ public class PlayerPickUpDrop : MonoBehaviour {
                     {
                         BigBallBox.SetActive(true);
                     }
+                    animator.SetBool("isPickUp", true);
                 }
             }
             else
             {
+                /*
                 // Currently carrying something, drop
                 objectGrabbable.Drop();
                 objectGrabbable = null;
                 BigBallBox.SetActive(false);
+                */
             }
         }
     }
@@ -78,7 +88,9 @@ public class PlayerPickUpDrop : MonoBehaviour {
             {
                 // Currently carrying something, throw
                 objectGrabbable.Drop();
-                
+
+                animator.SetBool("isThrow", true);
+                animator.SetBool("isPickUp", false);
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
