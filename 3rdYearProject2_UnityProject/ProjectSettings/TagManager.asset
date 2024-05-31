@@ -7,6 +7,7 @@ TagManager:
   - Water
   - LittleBall
   - BigBall
+  - Grab Point
   layers:
   - Default
   - TransparentFX

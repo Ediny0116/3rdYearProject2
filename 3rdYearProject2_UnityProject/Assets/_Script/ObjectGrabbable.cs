@@ -12,6 +12,7 @@ public class ObjectGrabbable : MonoBehaviour {
     }
 
     public void Grab(Transform objectGrabPointTransform) {
+         this.GetComponent<SphereCollider>().enabled = false;
         this.objectGrabPointTransform = objectGrabPointTransform;
         objectRigidbody.useGravity = false;
     }
@@ -20,13 +21,16 @@ public class ObjectGrabbable : MonoBehaviour {
         this.objectGrabPointTransform = null;
         objectRigidbody.useGravity = true;
         objectRigidbody.velocity = Vector3.zero;
+        this.GetComponent<SphereCollider>().enabled = true;
     }
 
     private void FixedUpdate() {
         if (objectGrabPointTransform != null) {
             float lerpSpeed = 10f;
+            //Vector3 newPosition = objectGrabPointTransform.position;
             Vector3 newPosition = Vector3.Lerp(transform.position, objectGrabPointTransform.position, Time.deltaTime * lerpSpeed);
-            objectRigidbody.MovePosition(newPosition);
+            transform.position = newPosition;
+            //objectRigidbody.MovePosition(newPosition);
         }
     }
 }

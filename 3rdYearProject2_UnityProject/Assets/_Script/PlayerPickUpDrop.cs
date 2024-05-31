@@ -46,6 +46,7 @@ public class PlayerPickUpDrop : MonoBehaviour {
         if (other.CompareTag("BigBall") || other.CompareTag("LittleBall"))
         {
             ballList.Remove(other.gameObject);
+            ballList.Remove(other.gameObject);
         }
     }
     
