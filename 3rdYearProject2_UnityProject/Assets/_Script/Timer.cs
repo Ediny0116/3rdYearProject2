@@ -29,7 +29,7 @@ public class Timer : MonoBehaviour
 
         if(remainingTime <= 0)
         {
-            FindAnyObjectByType<GameManager>().EndGame();
+            GameObject.Find("GameManager").GetComponent<GameManager>().EndGame();
         }
     }
 

@@ -5,13 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public Transform RespawnPoint;
-    public GameObject Lball,Bball;
+    public GameObject Lball, Bball;
     [SerializeField] GameObject endMenu;
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        /*
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        */
+    }
+    private void Start()
+    {
+        endMenu = GameObject.Find("EndMenu");
     }
     public void SpawnLBall()
     {
@@ -24,7 +39,8 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        endMenu.SetActive(true);
+        endMenu = GameObject.Find("EndMenu");
+        endMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         Time.timeScale = 0f;
         endMenu.transform.Find("Text (TMP)EndScore").GetComponent<TMPro.TextMeshProUGUI>().text = "Score:" + GameObject.Find("Text (TMP)Score").GetComponent<Score>().GetScore();
     }
