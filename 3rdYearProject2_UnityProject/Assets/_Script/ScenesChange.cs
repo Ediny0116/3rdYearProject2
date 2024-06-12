@@ -18,6 +18,6 @@ public class ScenesChange : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         // Load the SampleScene
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Game");
     }
 }
