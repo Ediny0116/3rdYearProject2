@@ -247,14 +247,14 @@ GameObject:
   - component: {fileID: 8424259532536480748}
   - component: {fileID: 7078087646163330905}
   - component: {fileID: 5559104778669065340}
-  - component: {fileID: 5322464878753967510}
+  - component: {fileID: 2456319651508514077}
   m_Layer: 8
   m_Name: PlayerPink
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3623347032471946228
 Transform:
   m_ObjectHideFlags: 0
@@ -379,7 +379,7 @@ CapsuleCollider:
   m_Height: 3.7908382
   m_Direction: 1
   m_Center: {x: 0.10354663, y: 1.7651423, z: -1.517163e-16}
---- !u!54 &5322464878753967510
+--- !u!54 &2456319651508514077
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
