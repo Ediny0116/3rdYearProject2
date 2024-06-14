@@ -6,14 +6,13 @@ namespace GameFramework.Core
     {
         private static T _instance;
 
-        [System.Obsolete]
         public static T Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    T[] objs = FindObjectsOfType<T>();
+                    T[] objs = Object.FindObjectsByType<T>(FindObjectsSortMode.None);
                     if (objs.Length>0)
                     {
                        T instance = objs[0];
