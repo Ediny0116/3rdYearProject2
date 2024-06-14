@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dbb9f54dbc1bbf4799f555ad257f054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectGrabPointTransform: {fileID: 0}
+  objectGrabPointTransform: {fileID: 8711093289630658475}
   BigBallBox: {fileID: 0}
   RayCastLayerMask:
     serializedVersion: 2
