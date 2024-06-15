@@ -22,32 +22,6 @@ namespace GameFramework.Core.GameFramework.Manager
             return _lobby?.LobbyCode;
         }
 
-        public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data)
-        {
-            Dictionary<string, PlayerDataObject> playerData =SerializePlayerData(data);
-            Player player = new Player(AuthenticationService.Instance.PlayerId, connectionInfo: null, playerData);
-            CreateLobbyOptions options = new CreateLobbyOptions()
-            {
-                IsPrivate = isPrivate,
-                Player = player
-            };
-
-            try
-            { 
-            _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayers, options);
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
-            Debug.Log(message: $"Lobby created with lobby id {_lobby.Id}");
-
-            _heartbeatCorotine=StartCoroutine(HerathbeatLobbyCoroutine(_lobby.Id, 6f));
-            _refreshLobbyCoroutine=StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
-
-            return true;
-        }
-
         private IEnumerator HerathbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
         {
             while (true)
@@ -99,21 +73,54 @@ namespace GameFramework.Core.GameFramework.Manager
 
         }
 
-        public async Task<bool> JoinLobby(string code, Dictionary<string, string> playerData)
+        public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data)
         {
-            JoinLobbyByCodeOptions options = new JoinLobbyByCodeOptions();
-            Player player = new Player(AuthenticationService.Instance.PlayerId, connectionInfo: null, SerializePlayerData(playerData));
-
-            options.Player = player;
+            Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+            Player player = new Player(AuthenticationService.Instance.PlayerId, connectionInfo: null, playerData);
+            CreateLobbyOptions options = new CreateLobbyOptions()
+            {
+                IsPrivate = isPrivate,
+                Player = player
+            };
 
             try
             {
-                _lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code);
+                _lobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayers, options);
             }
             catch (System.Exception)
             {
                 return false;
             }
+            Debug.Log(message: $"Lobby created with lobby id {_lobby.Id}");
+
+            _heartbeatCorotine = StartCoroutine(HerathbeatLobbyCoroutine(_lobby.Id, 6f));
+            _refreshLobbyCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
+
+            return true;
+        }
+
+        public async Task<bool> JoinLobby(string code, Dictionary<string, string> data)
+        {
+            JoinLobbyByCodeOptions options = new JoinLobbyByCodeOptions();
+            Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+            Player player = new Player(AuthenticationService.Instance.PlayerId, connectionInfo: null, playerData);
+
+            options.Player = player;
+
+            /*
+            _lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code, options);
+            */
+
+            try
+            {
+                _lobby = await LobbyService.Instance.JoinLobbyByCodeAsync(code,options);
+            }
+            catch (System.Exception e)
+            {
+                Debug.Log(e.Message);
+                return false;
+            }
+
            _refreshLobbyCoroutine= StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
             return true;
         }

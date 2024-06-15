@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,12 +15,14 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button _joinButton;
     [SerializeField] private Button _submitCodeButton;
     [SerializeField] private TextMeshProUGUI _codeText;
+    [SerializeField] Button buttonPageUp;
 
     void OnEnable()
     {
         _hostButton.onClick.AddListener(OnHostClicked);
         _joinButton.onClick.AddListener(OnJoinClicked);
         _submitCodeButton.onClick.AddListener(OnSubmitCodeClicked);
+        buttonPageUp.onClick.AddListener(PageUp);
     }
 
     void OnDisable()
@@ -28,30 +32,50 @@ public class MainMenuController : MonoBehaviour
         _submitCodeButton.onClick.RemoveListener(OnSubmitCodeClicked);
     }
 
-    private async void OnHostClicked()
-    {
-      bool succeeded= await GameLobbyManager.Instance.CreateLobby();
-        if (succeeded)
-        {
-            SceneManager.LoadSceneAsync("Lobby");
-        }
-    }
-
     private void OnJoinClicked()
     {
         _mainScreen.SetActive(false);
         _JoinScreen.SetActive(true);
 
     }
+
+    private void PageUp()
+    {
+        _mainScreen.SetActive(true);
+        _JoinScreen.SetActive(false);
+    }
+
+    private async void OnHostClicked()
+    {
+      bool succeeded= await GameLobbyManager.Instance.CreateLobby();
+        if (succeeded)
+        {
+            await SceneManager.LoadSceneAsync("Lobby");
+        }
+    }
+
     private async void OnSubmitCodeClicked()
     {
         string code = _codeText.text;
-        code=code.Substring(startIndex:0,length:code.Length-1);
+        try
+        {
+            code = code.Substring(0, 6); //TMPro問題會導致出現多餘字元
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        Debug.Log("("+code+")");
 
        bool succeeded=await GameLobbyManager.Instance.JoinLobby(code);
         if (succeeded)
         {
-            SceneManager.LoadSceneAsync("Lobby");
+            Debug.Log("Joined lobby");
+            await SceneManager.LoadSceneAsync("Lobby");
+        }
+        else
+        {
+            Debug.Log("Failed to join lobby");
         }
     }
 }
