@@ -50,23 +50,6 @@ namespace GameFramework.Core.GameFramework.Manager
             }
         }
 
-        private Dictionary<string, PlayerDataObject> SerializePlayerData(Dictionary<string, string> data)
-        {
-            Dictionary<string, PlayerDataObject> playerData = new Dictionary<string, PlayerDataObject>();
-
-            ////////
-            foreach (KeyValuePair<string, string> kvp in data)
-            {
-                string key = kvp.Key;
-                string value = kvp.Value;
-                playerData.Add(key, new PlayerDataObject(visibility: PlayerDataObject.VisibilityOptions.Member,
-                    value: value));
-            }
-            ////////
-
-            return playerData;
-
-        }
         public void OnApplicationQuit()
         {
             if (_lobby !=null && _lobby.HostId== AuthenticationService.Instance.PlayerId)
@@ -76,12 +59,13 @@ namespace GameFramework.Core.GameFramework.Manager
 
         }
 
-        public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data)
+        public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data,Dictionary<string,string>lobbyData)
         {
             Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
             Player player = new Player(AuthenticationService.Instance.PlayerId, connectionInfo: null, playerData);
             CreateLobbyOptions options = new CreateLobbyOptions()
             {
+                Data = SerializeLobbyData(lobbyData),
                 IsPrivate = isPrivate,
                 Player = player
             };
@@ -96,7 +80,7 @@ namespace GameFramework.Core.GameFramework.Manager
             }
             Debug.Log(message: $"Lobby created with lobby id {_lobby.Id}");
 
-            _heartbeatCorotine = StartCoroutine(HerathbeatLobbyCoroutine(_lobby.Id, 6f));
+            _heartbeatCorotine = StartCoroutine(HerathbeatLobbyCoroutine(_lobby.Id, 2f));
             _refreshLobbyCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
 
             return true;
@@ -137,6 +121,90 @@ namespace GameFramework.Core.GameFramework.Manager
                 data.Add(player.Data);
             }
             return data;
+        }
+
+        public async Task<bool> UpdatePlayerData(string playerId, Dictionary<string, string> data,string allocationId=default,string connectionData=default)
+        {
+            Dictionary<string, PlayerDataObject> playerData = SerializePlayerData(data);
+            UpdatePlayerOptions options = new UpdatePlayerOptions()
+            {
+                Data = playerData,
+                AllocationId=allocationId,
+                ConnectionInfo=connectionData
+            };
+            try
+            {
+                await LobbyService.Instance.UpdatePlayerAsync(_lobby.Id,playerId,options);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            Events.LobbyEvents.OnLobbyUpdated(_lobby);
+            return true;
+        }
+
+        public string GetHostId()
+        {
+            //Debug.Log("Host "+_lobby.HostId);
+            return _lobby.HostId;
+        }
+
+        private Dictionary<string, PlayerDataObject> SerializePlayerData(Dictionary<string, string> data)
+        {
+            Dictionary<string, PlayerDataObject> playerData = new Dictionary<string, PlayerDataObject>();
+
+            ////////
+            foreach (KeyValuePair<string, string> kvp in data)
+            {
+                string key = kvp.Key;
+                string value = kvp.Value;
+                playerData.Add(key, new PlayerDataObject(visibility: PlayerDataObject.VisibilityOptions.Member,
+                    value: value));
+            }
+            ////////
+
+            return playerData;
+
+        }
+
+        private Dictionary<string, DataObject> SerializeLobbyData(Dictionary<string, string> data)
+        {
+            Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>();
+
+            foreach (KeyValuePair<string, string> kvp in data)
+            {
+                string key = kvp.Key;
+                string value = kvp.Value;
+                lobbyData.Add(key, new DataObject(
+                    visibility: DataObject.VisibilityOptions.Member,
+                    value: value));
+            }
+
+            return lobbyData;
+        }
+
+        public async Task<bool> UpdateLobbyData(Dictionary<string,string> data)
+        {
+            Dictionary<string,DataObject>lobbyData=SerializeLobbyData(data);
+
+            UpdateLobbyOptions options = new UpdateLobbyOptions()
+            {
+                Data = lobbyData
+            };
+
+            try
+            {
+               _lobby= await LobbyService.Instance.UpdateLobbyAsync(_lobby.Id,options);
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+
+            Events.LobbyEvents.OnLobbyUpdated(_lobby);
+
+            return true;
         }
     } 
 }

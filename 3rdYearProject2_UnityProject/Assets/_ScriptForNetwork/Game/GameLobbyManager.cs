@@ -8,15 +8,23 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using Game.GameFramework.Core.Data; //?
+using Game.GameFramework.Core.Data;
+using GameFramework.Manager;
+using GameFramework.Core.Data;
+using UnityEngine.SceneManagement; //?
 
 namespace Game
 {
     public class GameLobbyManager : Singleton<GameLobbyManager>
     {
-        private List<LobbyPlayerData> _lobbyPlayerDatas = new List<LobbyPlayerData>();
+        private List<LobbyPlayerData> _lobbyPlayerData = new List<LobbyPlayerData>();
 
         private LobbyPlayerData _localLobbyPlayerData;
+
+        private int _maxNumberOfPlayers = 2;
+        private LobbyData _lobbyData;
+
+        public bool IsHost => _localLobbyPlayerData.Id==LobbyManager.Instance.GetHostId();
 
         private void OnEnable()
         {
@@ -36,43 +44,81 @@ namespace Game
 
         public async Task<bool> CreateLobby()
         {
-            LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
-            bool succeeded = await LobbyManager.Instance.CreateLobby(maxPlayers: 2, isPrivate: false, playerData.Serialize());
+            _localLobbyPlayerData = new LobbyPlayerData();
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            _lobbyData = new LobbyData();
+            _lobbyData.Initialize(new Dictionary<string, DataObject>());
+            bool succeeded = await LobbyManager.Instance.CreateLobby(_maxNumberOfPlayers, isPrivate: false, _localLobbyPlayerData.Serialize(),_lobbyData.Serialize());
             return succeeded;
         }
 
         public async Task<bool> JoinLobby(string code)
         {
-            LobbyPlayerData playerData = new LobbyPlayerData();
-            playerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
-            bool succeeded = await LobbyManager.Instance.JoinLobby(code, playerData.Serialize());
+            _localLobbyPlayerData = new LobbyPlayerData();
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            bool succeeded = await LobbyManager.Instance.JoinLobby(code, _localLobbyPlayerData.Serialize());
             return succeeded;
         }
 
         private void OnLobbyUpdated(Lobby lobby)
         {
             List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.Instance.GetPlayersData();
-            _lobbyPlayerDatas.Clear();
+            _lobbyPlayerData.Clear();
+
+            int numberOfPlayerReady = 0;
 
             foreach (Dictionary<string, PlayerDataObject> data in playerData)
             {
                 LobbyPlayerData lobbyPlayerData = new LobbyPlayerData();
                 lobbyPlayerData.Initialize(data);
 
+                if (lobbyPlayerData.IsReady)
+                {
+                    numberOfPlayerReady++;
+                }
+
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)
                 {
                     _localLobbyPlayerData = lobbyPlayerData;
                 }
 
-                _lobbyPlayerDatas.Add(lobbyPlayerData);
+                _lobbyPlayerData.Add(lobbyPlayerData);
             }
+
+            _lobbyData=new LobbyData();
+            _lobbyData.Initialize(lobby.Data);
+
             Events.LobbyEvents.OnLobbyUpdated?.Invoke();
+
+            if(numberOfPlayerReady==lobby.Players.Count)
+            {
+                Events.LobbyEvents.OnLobbyReady?.Invoke();
+            }
         }
 
-        internal List<LobbyPlayerData> GetPlayers()
+        public List<LobbyPlayerData> GetPlayers()
         {
-           return _lobbyPlayerDatas;
+           return _lobbyPlayerData;
+        }
+
+        public async Task<bool> SetPlayerReady()
+        {
+            _localLobbyPlayerData.IsReady = true;
+            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id,_localLobbyPlayerData.Serialize());
+        }
+
+        public async Task StartGame(string sceneName)
+        {
+            string JoinRelayCode= await RelayManager.Instance.CreateRelay(_maxNumberOfPlayers);
+
+            _lobbyData.SetRelayJoinCode(JoinRelayCode);
+            await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
+
+            string allocationId =  RelayManager.Instance.GetAllocationId();
+            string connectionData =  RelayManager.Instance.GetConnectionData();
+            await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(),allocationId,connectionData);
+
+            SceneManager.LoadScene(sceneName);
         }
     }
 }

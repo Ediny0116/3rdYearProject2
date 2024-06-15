@@ -29,6 +29,7 @@ namespace Game
 
             for(int i = 0; i < playerDatas.Count; i++)
             {
+                //Debug.Log("player" + (i + 1).ToString());
                 LobbyPlayerData data = playerDatas[i];
                 _players[i].SetData(data);
             }

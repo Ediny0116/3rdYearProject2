@@ -19,14 +19,21 @@ public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             originalColors[i] = chessBoard[i].GetComponent<Renderer>().material.color;
         }
-        playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
+        //playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (playerPickUpDrop.GetIsGrabbing()&&playerPickUpDrop.GetIsBigBall())
+        try
         {
-            ChangeColor(hoverColor);
+            if (playerPickUpDrop.GetIsGrabbing() && playerPickUpDrop.GetIsBigBall())
+            {
+                ChangeColor(hoverColor);
+            }
+        }
+        catch (System.Exception)
+        {
+            playerPickUpDrop = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerPickUpDrop>();
         }
     }
 

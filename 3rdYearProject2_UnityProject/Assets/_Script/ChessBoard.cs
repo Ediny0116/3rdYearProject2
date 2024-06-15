@@ -42,12 +42,19 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (playerPickUpDrop.GetIsGrabbing())
+        try
         {
-            if (!isClicked)
+            if (playerPickUpDrop.GetIsGrabbing())
             {
-                ChangeColor(hoverColor);//when mouseover, change color.
+                if (!isClicked)
+                {
+                    ChangeColor(hoverColor);//when mouseover, change color.
+                }
             }
+        }
+        catch (Exception)
+        {
+            playerPickUpDrop = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerPickUpDrop>();
         }
     }
     

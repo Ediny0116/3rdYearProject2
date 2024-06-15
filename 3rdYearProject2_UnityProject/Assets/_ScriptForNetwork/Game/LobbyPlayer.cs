@@ -12,6 +12,7 @@ namespace Game
     internal class LobbyPlayer:MonoBehaviour
     {
         [SerializeField] private TextMeshPro _playerName;
+        [SerializeField] private GameObject _isReadyTextObj;
 
         private LobbyPlayerData _data;
         
@@ -19,6 +20,16 @@ namespace Game
         {
             _data = data;
             _playerName.text = _data.GamerTag;
+
+            if (_data.IsReady)
+            {
+                _isReadyTextObj.SetActive(true);
+            }
+            else
+            {
+                _isReadyTextObj.SetActive(false);
+            }
+
             gameObject.SetActive(true);
         }
     }
