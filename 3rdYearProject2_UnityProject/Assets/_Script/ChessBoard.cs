@@ -21,16 +21,23 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         originalColor=GetComponent<Renderer>().material.color;//get the original color.
         boardCheck = GameObject.Find("board").GetComponent<BoardCheck>();
-        playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
+        //playerPickUpDrop = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerPickUpDrop>();
     }
     private void Update()
     {
-        if (!playerPickUpDrop.GetIsGrabbing())
+        try
         {
-            if (!isClicked)
+            if (!playerPickUpDrop.GetIsGrabbing())
             {
-                ChangeColor(originalColor);//when mouseover, change color.
+                if (!isClicked)
+                {
+                    ChangeColor(originalColor);//when mouseover, change color.
+                }
             }
+        }
+        catch(Exception)
+        {
+            playerPickUpDrop = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerPickUpDrop>();
         }
     }
     public void OnPointerEnter(PointerEventData eventData)
