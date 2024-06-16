@@ -1,7 +1,8 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Respawn : MonoBehaviour
+public class Respawn : NetworkBehaviour
 {
     public Transform RespawnPoint;
 
@@ -13,6 +14,7 @@ public class Respawn : MonoBehaviour
     {
         if (other.CompareTag("Water"))
         {
+            Debug.Log("Player entered water");
             StartCoroutine(RespawnAfterDelay());
         }
     }

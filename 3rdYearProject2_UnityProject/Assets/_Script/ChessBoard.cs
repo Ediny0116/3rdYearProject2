@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ChessBoard : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Color hoverColor;//Color on mouseover
     public Color clickColor;//Click color
@@ -16,6 +17,14 @@ public class ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     BoardCheck boardCheck;
     PlayerPickUpDrop playerPickUpDrop;
+
+
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        
+    }
 
     private void Start()
     {

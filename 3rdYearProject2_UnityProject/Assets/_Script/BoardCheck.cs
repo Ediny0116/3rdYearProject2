@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class BoardCheck : MonoBehaviour
+public class BoardCheck : NetworkBehaviour
 {
     public List<GameObject> ChessList = new List<GameObject>();
     public int[] ClickCountInLine = new int[12];

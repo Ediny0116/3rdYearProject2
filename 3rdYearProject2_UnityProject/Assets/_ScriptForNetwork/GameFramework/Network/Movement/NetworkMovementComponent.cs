@@ -11,6 +11,7 @@ namespace GameFramework.Network.Movement
         private Vector3 fVec;
         [SerializeField] private float maxSpeed = 3f;
         [SerializeField] private float maxRotate = 5f;
+        public float originalMaxSpeed = 3f;
 
         private int _tick = 0;
         private float _tickRate = 1f / 60f;
@@ -28,6 +29,12 @@ namespace GameFramework.Network.Movement
 
         private void Start()
         {
+            rVec = Camera.main.transform.right;
+            Vector3 tempV = Camera.main.transform.forward;
+            tempV.y = 0;
+            tempV.Normalize();
+            fVec = tempV;
+
             animator = GetComponent<Animator>();
             playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
         }
@@ -72,8 +79,8 @@ namespace GameFramework.Network.Movement
                 InputState inputState = new InputState()
                 {
                     Tick = _tick,
-                    transAmt = transAmt,
-                    rotAmt = rotAmt
+                    TransAmt = transAmt,
+                    RotAmt = rotAmt
                 };
 
                 TransformState transformState = new TransformState()
@@ -108,7 +115,6 @@ namespace GameFramework.Network.Movement
         }
         private void MoveAndRotate(float transAmt, float rotAmt)
         {
-            //Debug.Log("ClientMove");
             Vector3 dir = (rVec * rotAmt) + (fVec * transAmt);
 
             transform.forward = Vector3.Slerp(transform.forward, dir, maxRotate * Time.deltaTime);
@@ -147,5 +153,26 @@ namespace GameFramework.Network.Movement
             _previousTransformState=ServerTransformState.Value;
             ServerTransformState.Value = state;
         }
+
+        //==========
+        private void OnTriggerEnter(Collider other)
+        {
+            //when touch water, Player speed slow
+            if (other.CompareTag("Water"))
+            {
+                maxSpeed = maxSpeed / 2f;
+                animator.SetBool("isDead", true);
+            }
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Water"))
+            {
+                //back to normal speed
+                maxSpeed = originalMaxSpeed;
+                animator.SetBool("isDead", false);
+            }
+        }
+        //==========
     }
 }

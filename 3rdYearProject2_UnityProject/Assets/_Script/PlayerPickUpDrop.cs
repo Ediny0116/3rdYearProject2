@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PlayerPickUpDrop : MonoBehaviour {
+public class PlayerPickUpDrop : NetworkBehaviour
+{
 
     [SerializeField] private Transform objectGrabPointTransform;
     [SerializeField] private GameObject BigBallBox;
@@ -18,6 +20,8 @@ public class PlayerPickUpDrop : MonoBehaviour {
     private void Start()
     {
         animator = GetComponent<Animator>();
+        BigBallBox= GameObject.Find("BigBallBox");
+        BigBallBox.SetActive(false);
     }
     private void Update()
     {

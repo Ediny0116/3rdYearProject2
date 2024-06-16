@@ -5,7 +5,7 @@ namespace GameFramework.Network.Movement
     public class InputState
     {
         public int Tick;
-        public float transAmt;
-        public float rotAmt;
+        public float TransAmt;
+        public float RotAmt;
     }
 }

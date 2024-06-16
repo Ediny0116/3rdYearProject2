@@ -98,7 +98,7 @@ namespace Game
             if (_lobbyData.RelayJoinCode != default&&!_inGame)
             {
                 await JoinRelayServer(_lobbyData.RelayJoinCode);
-                SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+                await SceneManager.LoadSceneAsync(_lobbyData.SceneName);
             }
         }
 

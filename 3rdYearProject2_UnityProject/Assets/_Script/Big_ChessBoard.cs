@@ -1,8 +1,9 @@
 using Newtonsoft.Json.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Big_ChessBoard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Big_ChessBoard : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject[] chessBoard = new GameObject[4];
 

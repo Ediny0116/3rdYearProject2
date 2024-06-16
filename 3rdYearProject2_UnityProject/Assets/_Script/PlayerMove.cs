@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerMove : NetworkBehaviour
 {
-    public float originalMaxSpeed = 3f;
 
     private Vector3 rVec;
     private Vector3 fVec;
@@ -75,24 +74,4 @@ public class PlayerMove : NetworkBehaviour
             GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
         }
     }*/
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        //when touch water, Player speed slow
-        if (other.CompareTag("Water"))
-        {
-            maxSpeed = maxSpeed / 2f;
-            animator.SetBool("isDead", true);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Water"))
-        {
-            //back to normal speed
-            maxSpeed = originalMaxSpeed;
-            animator.SetBool("isDead", false);
-        }
-    }
-    
 }
