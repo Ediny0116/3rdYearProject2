@@ -14,7 +14,7 @@ public class Respawn : NetworkBehaviour
     {
         if (other.CompareTag("Water"))
         {
-            Debug.Log("Player entered water");
+            Debug.Log("entered water");
             StartCoroutine(RespawnAfterDelay());
         }
     }

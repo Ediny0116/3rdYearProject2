@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game;
+using System;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -24,18 +25,33 @@ namespace GameFramework.Network.Movement
         public NetworkVariable<TransformState> ServerTransformState= new NetworkVariable<TransformState>();
         public TransformState _previousTransformState;
 
+        [SerializeField]private Animator PinkAnimator;
+        [SerializeField] private Animator BlueAnimator;
         private Animator animator;
         private PlayerPickUpDrop playerPickUpDrop;
 
         private void Start()
         {
+            if(GameLobbyManager.Instance.IsHost)
+            {
+                animator = PinkAnimator;
+                BlueAnimator.gameObject.SetActive(false);
+                Debug.Log("Player spawn as Host");
+            }
+            else
+            {
+                animator = BlueAnimator;
+                PinkAnimator.gameObject.SetActive(false);
+                Debug.Log("Player spawn as Client");
+            }
+
             rVec = Camera.main.transform.right;
             Vector3 tempV = Camera.main.transform.forward;
             tempV.y = 0;
             tempV.Normalize();
             fVec = tempV;
 
-            animator = GetComponent<Animator>();
+            //animator = GetComponent<Animator>();
             playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
         }
         private void OnEnable()
@@ -128,12 +144,12 @@ namespace GameFramework.Network.Movement
             // Call WalkAnimation based on user input
             if (playerPickUpDrop.objectGrabbable == null)
             {
-                GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+                animator.gameObject.GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
             }
 
             if (playerPickUpDrop.objectGrabbable != null)
             {
-                GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
+                animator.gameObject.GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
             }
             
         }

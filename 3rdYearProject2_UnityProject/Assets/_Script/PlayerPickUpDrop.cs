@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Game;
 
 public class PlayerPickUpDrop : NetworkBehaviour
 {
@@ -15,11 +16,21 @@ public class PlayerPickUpDrop : NetworkBehaviour
     public ObjectGrabbable objectGrabbable;
     [SerializeField] private float throwForce = 20f;
 
+    [SerializeField] private Animator PinkAnimator;
+    [SerializeField] private Animator BlueAnimator;
     private Animator animator;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        if (GameLobbyManager.Instance.IsHost)
+        {
+            animator = PinkAnimator;
+        }
+        else
+        {
+            animator = BlueAnimator;
+        }
+        //animator = GetComponent<Animator>();
         BigBallBox= GameObject.Find("BigBallBox");
         BigBallBox.SetActive(false);
     }
