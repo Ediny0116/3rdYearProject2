@@ -75,7 +75,8 @@ namespace Game
 
         private async void OnStartButtonClicked()
         {
-            await GameLobbyManager.Instance.StartGame("Game");
+            await GameLobbyManager.Instance.SetSelectedMap("Game");
+            await GameLobbyManager.Instance.StartGame();
         }
     }
 }

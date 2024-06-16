@@ -1,7 +1,8 @@
 // PlayerMove.cs
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : NetworkBehaviour
 {
     public float maxRotate = 5f;
     public float maxSpeed;
@@ -12,6 +13,11 @@ public class PlayerMove : MonoBehaviour
 
     private Animator animator;
     private PlayerPickUpDrop playerPickUpDrop;
+
+    public override void OnNetworkSpawn()
+    {
+        
+    }
 
     void Start()
     {
@@ -27,17 +33,25 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        // Get Input
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         float transAmt = verticalInput;
         float rotAmt = horizontalInput;
-        MoveAndRotate(transAmt, rotAmt);
+        if (IsServer && IsLocalPlayer)
+        {
+            MoveAndRotate(transAmt, rotAmt);
+        }
+        else if(IsLocalPlayer)
+        {
+            
+            MoveServerRPC(transAmt, rotAmt);
+        }
     }
 
     void MoveAndRotate(float transAmt, float rotAmt)
     {
+        //Debug.Log("ClientMove");
         Vector3 dir = (rVec * rotAmt) + (fVec * transAmt);
 
         transform.forward = Vector3.Slerp(transform.forward, dir, maxRotate * Time.deltaTime);
@@ -59,7 +73,12 @@ public class PlayerMove : MonoBehaviour
             GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
         }
     }
-
+    [ServerRpc]
+    private void MoveServerRPC(float transAmt, float rotAmt)
+    {
+        //Debug.Log("HostMove");
+        MoveAndRotate(transAmt, rotAmt);
+    }
     
     private void OnTriggerEnter(Collider other)
     {
