@@ -1,15 +1,16 @@
 // PlayerMove.cs
+using GameFramework.Network.Movement;
 using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerMove : NetworkBehaviour
 {
-    public float maxRotate = 5f;
-    public float maxSpeed;
     public float originalMaxSpeed = 3f;
 
     private Vector3 rVec;
     private Vector3 fVec;
+
+    [SerializeField] private NetworkMovementComponent _playerMovement;
 
     private Animator animator;
     private PlayerPickUpDrop playerPickUpDrop;
@@ -21,11 +22,12 @@ public class PlayerMove : NetworkBehaviour
 
     void Start()
     {
+        /*
         rVec = Camera.main.transform.right;
         Vector3 tempV = Camera.main.transform.forward;
         tempV.y = 0;
         tempV.Normalize();
-        fVec = tempV;
+        fVec = tempV;*/
 
         animator = GetComponent<Animator>();
         playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
@@ -38,19 +40,19 @@ public class PlayerMove : NetworkBehaviour
 
         float transAmt = verticalInput;
         float rotAmt = horizontalInput;
-        if (IsServer && IsLocalPlayer)
+        if (IsClient && IsLocalPlayer)
         {
-            MoveAndRotate(transAmt, rotAmt);
+            _playerMovement.ProcessLocalPlayerMovement(transAmt, rotAmt);
         }
-        else if(IsLocalPlayer)
+        else
         {
-            
-            MoveServerRPC(transAmt, rotAmt);
+            _playerMovement.ProcessSimulatedPlayerMovement();
         }
     }
-
+    /*
     void MoveAndRotate(float transAmt, float rotAmt)
     {
+        
         //Debug.Log("ClientMove");
         Vector3 dir = (rVec * rotAmt) + (fVec * transAmt);
 
@@ -60,7 +62,7 @@ public class PlayerMove : NetworkBehaviour
         Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
 
         transform.position += moveAmt * Time.deltaTime;
-
+        
 
         // Call WalkAnimation based on user input
         if (playerPickUpDrop.objectGrabbable == null)
@@ -72,13 +74,7 @@ public class PlayerMove : NetworkBehaviour
         {
             GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
         }
-    }
-    [ServerRpc]
-    private void MoveServerRPC(float transAmt, float rotAmt)
-    {
-        //Debug.Log("HostMove");
-        MoveAndRotate(transAmt, rotAmt);
-    }
+    }*/
     
     private void OnTriggerEnter(Collider other)
     {

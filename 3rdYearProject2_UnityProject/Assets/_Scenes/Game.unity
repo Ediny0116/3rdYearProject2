@@ -6258,7 +6258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &689847528
 Transform:
   m_ObjectHideFlags: 0
@@ -19931,6 +19931,10 @@ PrefabInstance:
     - target: {fileID: -4388856728445674163, guid: 1a6fb85c6bc967e43a7f19d667a9b7e6, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3570342330
+      objectReference: {fileID: 0}
+    - target: {fileID: -4388856728445674163, guid: 1a6fb85c6bc967e43a7f19d667a9b7e6, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1150496057
       objectReference: {fileID: 0}
     - target: {fileID: 3206594913879763579, guid: 1a6fb85c6bc967e43a7f19d667a9b7e6, type: 3}
       propertyPath: BigBallBox

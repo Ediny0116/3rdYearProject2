@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 6236378410027445855}
   - component: {fileID: 3424381470129032578}
   - component: {fileID: 3802345042819901390}
+  - component: {fileID: 7933185718711140273}
   m_Layer: 8
   m_Name: PlayerPink
   m_TagString: Player
@@ -525,6 +526,7 @@ MonoBehaviour:
   maxRotate: 5
   maxSpeed: 3
   originalMaxSpeed: 3
+  _playerMovement: {fileID: 7933185718711140273}
 --- !u!114 &8424259532536480748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,6 +652,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7933185718711140273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804945553285900896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0078a210470634a9b23688b67df8c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 3
+  maxRotate: 5
 --- !u!1 &2304783035272602134
 GameObject:
   m_ObjectHideFlags: 0

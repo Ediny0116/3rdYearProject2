@@ -1,12 +1,151 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace GameFramework.Network.Movement
 {
-    public class NetworkMovementComponent
+    public class NetworkMovementComponent:NetworkBehaviour
     {
+        private Vector3 rVec;
+        private Vector3 fVec;
+        [SerializeField] private float maxSpeed = 3f;
+        [SerializeField] private float maxRotate = 5f;
+
+        private int _tick = 0;
+        private float _tickRate = 1f / 60f;
+        private float _tickDeltaTime = 0f;
+
+        private const int BUFFER_SIZE = 1024;
+        private InputState[] _inputStates=new InputState[BUFFER_SIZE];
+        private TransformState[] _transformStates=new TransformState[BUFFER_SIZE];
+
+        public NetworkVariable<TransformState> ServerTransformState= new NetworkVariable<TransformState>();
+        public TransformState _previousTransformState;
+
+        private Animator animator;
+        private PlayerPickUpDrop playerPickUpDrop;
+
+        private void Start()
+        {
+            animator = GetComponent<Animator>();
+            playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
+        }
+        private void OnEnable()
+        {
+            ServerTransformState.OnValueChanged += OnServerStateChanged;
+        }
+
+        private void OnServerStateChanged(TransformState previousvalue, TransformState newvalue)
+        {
+            _previousTransformState= previousvalue;
+        }
+
+        public void ProcessLocalPlayerMovement(float transAmt,float rotAmt)
+        {
+            _tickDeltaTime += Time.deltaTime;
+            if (_tickDeltaTime > _tickRate)
+            {
+                int bufferIndex=_tick % BUFFER_SIZE;
+
+                if (!IsServer)
+                {
+                    MovePlayerServerRPC(_tick, transAmt, rotAmt);
+                    MoveAndRotate(transAmt, rotAmt);
+                }
+                else
+                {
+                    MoveAndRotate(transAmt, rotAmt);
+
+                    TransformState state = new TransformState()
+                    {
+                        Tick = _tick,
+                        Position = transform.position,
+                        Rotation = transform.rotation,
+                        HasStartedMoving = true
+                    };
+
+                    _previousTransformState=ServerTransformState.Value;
+                    ServerTransformState.Value = state;
+                }
+
+                InputState inputState = new InputState()
+                {
+                    Tick = _tick,
+                    transAmt = transAmt,
+                    rotAmt = rotAmt
+                };
+
+                TransformState transformState = new TransformState()
+                {
+                    Tick = _tick,
+                    Position = transform.position,
+                    Rotation = transform.rotation,
+                    HasStartedMoving = true
+                };
+
+                _inputStates[bufferIndex] = inputState;
+                _transformStates[bufferIndex] = transformState;
+
+                _tickDeltaTime -= _tickRate;
+                _tick++;
+            }
+        }
+
+        public void ProcessSimulatedPlayerMovement()
+        {
+            _tickDeltaTime += Time.deltaTime;
+            if (_tickDeltaTime > _tickRate)
+            {
+                if (ServerTransformState.Value.HasStartedMoving)
+                {
+                    transform.position = ServerTransformState.Value.Position;
+                    transform.rotation = ServerTransformState.Value.Rotation;
+                }
+                _tickDeltaTime -= _tickRate;
+                _tick++;
+            }
+        }
+        private void MoveAndRotate(float transAmt, float rotAmt)
+        {
+            //Debug.Log("ClientMove");
+            Vector3 dir = (rVec * rotAmt) + (fVec * transAmt);
+
+            transform.forward = Vector3.Slerp(transform.forward, dir, maxRotate * Time.deltaTime);
+
+            float moveDist = dir.magnitude;
+            Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
+
+            transform.position += moveAmt * _tickRate;
+
+            
+            // Call WalkAnimation based on user input
+            if (playerPickUpDrop.objectGrabbable == null)
+            {
+                GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+            }
+
+            if (playerPickUpDrop.objectGrabbable != null)
+            {
+                GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
+            }
+            
+        }
+
+        [ServerRpc]
+        private void MovePlayerServerRPC(int tick, float transAmt, float rotAmt)
+        {
+            MoveAndRotate(transAmt, rotAmt);
+
+            TransformState state = new TransformState()
+            {
+                Tick = tick,
+                Position = transform.position,
+                Rotation = transform.rotation,
+                HasStartedMoving = true
+            };
+            _previousTransformState=ServerTransformState.Value;
+            ServerTransformState.Value = state;
+        }
     }
 }
