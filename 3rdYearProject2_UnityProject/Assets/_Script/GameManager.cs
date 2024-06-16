@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
     public Transform RespawnPoint;
     public GameObject Lball, Bball;
     [SerializeField] GameObject endMenu;
+
+    private Score score;
 
     private void Start()
     {
@@ -30,6 +33,8 @@ public class GameManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(ip, (ushort)port, allocationId, key, connectionData,hostConnectionData, isSecure: true);
             NetworkManager.Singleton.StartClient();
         }
+
+        score = GameObject.Find("Text (TMP)Score").GetComponent<Score>();
     }
 
     private void connectionApproval(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
@@ -50,10 +55,12 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        endMenu = GameObject.Find("EndMenu");
-        endMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+        //endMenu = GameObject.Find("EndMenu");
+        //endMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         Time.timeScale = 0f;
-        endMenu.transform.Find("Text (TMP)EndScore").GetComponent<TMPro.TextMeshProUGUI>().text = "Score:" + GameObject.Find("Text (TMP)Score").GetComponent<Score>().GetScore();
+        score.SaveScore();
+        SceneManager.LoadScene("EndMenu");
+        //endMenu.transform.Find("Text (TMP)EndScore").GetComponent<TMPro.TextMeshProUGUI>().text = "Score:" + GameObject.Find("Text (TMP)Score").GetComponent<Score>().GetScore();
     }
     public void RestartGame()
     {

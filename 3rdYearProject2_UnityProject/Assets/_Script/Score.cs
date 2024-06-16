@@ -25,4 +25,10 @@ public class Score : MonoBehaviour
     {
         return ScoreCount;
     }
+
+    public void SaveScore()
+    {
+        PlayerPrefs.SetInt("FinalScore", ScoreCount);
+        PlayerPrefs.Save();
+    }
 }
