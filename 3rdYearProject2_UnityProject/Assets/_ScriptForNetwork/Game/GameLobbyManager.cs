@@ -20,7 +20,7 @@ namespace Game
     {
         private List<LobbyPlayerData> _lobbyPlayerData = new List<LobbyPlayerData>();
         private LobbyPlayerData _localLobbyPlayerData;
-        private int _maxNumberOfPlayers = 2;
+        private int _maxNumberOfPlayers = 6;
         private LobbyData _lobbyData;
         private bool _inGame = false;
 

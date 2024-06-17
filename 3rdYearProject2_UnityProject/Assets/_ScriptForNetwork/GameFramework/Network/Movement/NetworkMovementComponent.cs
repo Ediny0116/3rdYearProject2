@@ -140,7 +140,7 @@ namespace GameFramework.Network.Movement
             float moveDist = dir.magnitude;
             Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
 
-            transform.position += moveAmt * _tickRate;
+            transform.position += moveAmt * _tickDeltaTime;
 
             
             // Call WalkAnimation based on user input
