@@ -193,13 +193,15 @@ namespace GameFramework.Network.Movement
                 maxSpeed = originalMaxSpeed;
                 animator.SetBool("isDead", false);
             }
-
+            /*
             // Ignore collision with LittleBall and BigBall for 3 seconds
             if (other.CompareTag("LittleBall") || other.CompareTag("BigBall"))
             {
                 StartCoroutine(IgnoreCollisionWithPlayer(other, 3f));
             }
+            */
         }
+        /*
         private IEnumerator IgnoreCollisionWithPlayer(Collider other, float duration)
         {
             Collider playerCollider = GetComponent<Collider>();
@@ -210,6 +212,7 @@ namespace GameFramework.Network.Movement
                 Physics.IgnoreCollision(playerCollider, other, false);
             }
         }
+        */
         //==========
     }
 }

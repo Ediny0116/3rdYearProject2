@@ -78,7 +78,7 @@ public class PlayerPickUpDrop : NetworkBehaviour
                     objectGrabbable.Grab(objectGrabPointTransform);
                     if (GetIsBigBall())
                     {
-                        BigBallBox.SetActive(true);
+                        //BigBallBox.SetActive(true);
                     }
                     animator.SetBool("isPickUp", true);
                 }
@@ -99,7 +99,8 @@ public class PlayerPickUpDrop : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            BigBallBox.SetActive(false);
+            Debug.Log(this.gameObject.name+" shoot");
+            //BigBallBox.SetActive(false);
             if (objectGrabbable != null)
             {
                 // Currently carrying something, throw
