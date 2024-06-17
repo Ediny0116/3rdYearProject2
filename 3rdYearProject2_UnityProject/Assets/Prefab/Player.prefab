@@ -1508,7 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 3
-  maxRotate: 10
+  maxRotate: 20
   originalMaxSpeed: 3
   PinkAnimator: {fileID: 2602409808133225492}
   BlueAnimator: {fileID: 6119835661738219285}

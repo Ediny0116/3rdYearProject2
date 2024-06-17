@@ -37,6 +37,18 @@ public class GameManager : MonoBehaviour
         score = GameObject.Find("Text (TMP)Score").GetComponent<Score>();
     }
 
+    private void LateUpdate()
+    {
+        if (!GameObject.FindGameObjectWithTag("BigBall"))
+        {
+            Instantiate(Bball, RespawnPoint.position, Quaternion.identity);
+        }
+        if (!GameObject.FindGameObjectWithTag("LittleBall"))
+        {
+            Instantiate(Lball, RespawnPoint.position, Quaternion.identity);
+        }
+    }
+
     private void connectionApproval(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
     {
         response.Approved= true;
