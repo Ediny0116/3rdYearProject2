@@ -52,16 +52,19 @@ namespace Game
             return succeeded;
         }
 
+        private Lobby _lobby;
+
         public async Task<bool> JoinLobby(string code)
         {
             _localLobbyPlayerData = new LobbyPlayerData();
-            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer"+ _lobby.Players.Count);
             bool succeeded = await LobbyManager.Instance.JoinLobby(code, _localLobbyPlayerData.Serialize());
             return succeeded;
         }
 
         private async void OnLobbyUpdated(Lobby lobby)
         {
+            _lobby = lobby;
             List<Dictionary<string, PlayerDataObject>> playerData = LobbyManager.Instance.GetPlayersData();
             _lobbyPlayerData.Clear();
 
@@ -75,6 +78,7 @@ namespace Game
                 if (lobbyPlayerData.IsReady)
                 {
                     numberOfPlayerReady++;
+                    Debug.Log("ready Player" + lobbyPlayerData.Id);
                 }
 
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)

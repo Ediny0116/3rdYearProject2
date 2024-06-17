@@ -31,6 +31,7 @@ namespace Game
             }
 
             gameObject.SetActive(true);
+            Debug.Log("Join player " + _data.Id);
         }
     }
 }
