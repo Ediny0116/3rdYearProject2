@@ -57,7 +57,7 @@ namespace Game
         public async Task<bool> JoinLobby(string code)
         {
             _localLobbyPlayerData = new LobbyPlayerData();
-            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer"+ _lobby.Players.Count);
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
             bool succeeded = await LobbyManager.Instance.JoinLobby(code, _localLobbyPlayerData.Serialize());
             return succeeded;
         }

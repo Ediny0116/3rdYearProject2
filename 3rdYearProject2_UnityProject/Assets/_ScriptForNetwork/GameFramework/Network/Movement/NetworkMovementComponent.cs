@@ -12,7 +12,7 @@ namespace GameFramework.Network.Movement
         private Vector3 rVec;
         private Vector3 fVec;
         [SerializeField] private float maxSpeed = 3f;
-        [SerializeField] private float maxRotate = 5f;
+        [SerializeField] private float maxRotate = 10f;
         public float originalMaxSpeed = 3f;
 
         private int _tick = 0;
@@ -37,6 +37,7 @@ namespace GameFramework.Network.Movement
             {
                 animator = PinkAnimator;
                 BlueAnimator.gameObject.SetActive(false);
+                playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
                 Debug.Log("Player spawn as Host");
             }
             else
@@ -54,7 +55,7 @@ namespace GameFramework.Network.Movement
             fVec = tempV;
 
             //animator = GetComponent<Animator>();
-            playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
+            
         }
         private void OnEnable()
         {
@@ -135,25 +136,26 @@ namespace GameFramework.Network.Movement
         {
             Vector3 dir = (rVec * rotAmt) + (fVec * transAmt);
 
-            transform.forward = Vector3.Slerp(transform.forward, dir, maxRotate * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, dir, maxRotate * _tickRate);
 
             float moveDist = dir.magnitude;
             Vector3 moveAmt = transform.forward * moveDist * maxSpeed;
 
-            transform.position += moveAmt * _tickDeltaTime;
+            transform.position += moveAmt * _tickRate;
 
-            
-            // Call WalkAnimation based on user input
-            if (playerPickUpDrop.objectGrabbable == null)
+            if (GameLobbyManager.Instance.IsHost)
             {
-                animator.gameObject.GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
-            }
+                // Call WalkAnimation based on user input
+                if (playerPickUpDrop.objectGrabbable == null)
+                {
+                    animator.gameObject.GetComponent<PlayerAnimation>().WalkAnimation(transAmt, rotAmt);
+                }
 
-            if (playerPickUpDrop.objectGrabbable != null)
-            {
-                animator.gameObject.GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
+                if (playerPickUpDrop.objectGrabbable != null)
+                {
+                    animator.gameObject.GetComponent<PlayerAnimation>().PickUpRunAnimation(transAmt, rotAmt);
+                }
             }
-            
         }
 
         [ServerRpc]
