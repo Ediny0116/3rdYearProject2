@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
     {
         //endMenu = GameObject.Find("EndMenu");
         //endMenu.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-        Time.timeScale = 0f;
-        score.SaveScore();
+        //Time.timeScale = 0f;
+        //score.SaveScore();
         SceneManager.LoadScene("EndMenu");
         //endMenu.transform.Find("Text (TMP)EndScore").GetComponent<TMPro.TextMeshProUGUI>().text = "Score:" + GameObject.Find("Text (TMP)Score").GetComponent<Score>().GetScore();
     }

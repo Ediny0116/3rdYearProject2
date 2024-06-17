@@ -78,7 +78,7 @@ namespace Game
                 if (lobbyPlayerData.IsReady)
                 {
                     numberOfPlayerReady++;
-                    Debug.Log("ready Player" + lobbyPlayerData.Id);
+                    //Debug.Log("ready Player" + lobbyPlayerData.Id);
                 }
 
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)

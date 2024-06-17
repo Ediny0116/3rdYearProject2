@@ -13,18 +13,39 @@ namespace Game
     {
         [SerializeField] private GameObject _mainScreen;
         [SerializeField] private GameObject _JoinScreen;
+        [SerializeField] private GameObject _manual;
         [SerializeField] private Button _hostButton;
         [SerializeField] private Button _joinButton;
         [SerializeField] private Button _submitCodeButton;
         [SerializeField] private TextMeshProUGUI _codeText;
         [SerializeField] Button buttonPageUp;
+        [SerializeField] Button ButtonManual;
 
+        bool isManualOpened = false;
         void OnEnable()
         {
             _hostButton.onClick.AddListener(OnHostClicked);
             _joinButton.onClick.AddListener(OnJoinClicked);
             _submitCodeButton.onClick.AddListener(OnSubmitCodeClicked);
             buttonPageUp.onClick.AddListener(PageUp);
+            ButtonManual.onClick.AddListener(Manual);
+        }
+
+        private void Manual()
+        {  
+            if (isManualOpened)
+            {
+                _manual.SetActive(false);
+                _mainScreen.SetActive(true);
+                isManualOpened = false;
+            }
+            else
+            {
+                _manual.SetActive(true);
+                _mainScreen.SetActive(false);
+                _JoinScreen.SetActive(false);
+                isManualOpened = true;
+            }
         }
 
         void OnDisable()
@@ -32,6 +53,8 @@ namespace Game
             _hostButton.onClick.RemoveListener(OnHostClicked);
             _joinButton.onClick.RemoveListener(OnJoinClicked);
             _submitCodeButton.onClick.RemoveListener(OnSubmitCodeClicked);
+            buttonPageUp.onClick.RemoveListener(PageUp);
+            ButtonManual.onClick.RemoveListener(Manual);
         }
 
         private void OnJoinClicked()

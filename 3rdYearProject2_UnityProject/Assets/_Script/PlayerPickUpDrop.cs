@@ -32,7 +32,7 @@ public class PlayerPickUpDrop : NetworkBehaviour
         }
         //animator = GetComponent<Animator>();
         BigBallBox= GameObject.Find("BigBallBox");
-        BigBallBox.SetActive(false);
+        //BigBallBox.SetActive(false);
     }
     private void Update()
     {

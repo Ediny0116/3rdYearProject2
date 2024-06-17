@@ -44,7 +44,8 @@ namespace GameFramework.Network.Movement
             {
                 animator = BlueAnimator;
                 PinkAnimator.gameObject.SetActive(false);
-                BlueAnimator.gameObject.GetComponent<PlayerPickUpDrop>().enabled = false;
+                playerPickUpDrop = GetComponent<PlayerPickUpDrop>();
+                //BlueAnimator.gameObject.GetComponent<PlayerPickUpDrop>().enabled = false;
                 Debug.Log("Player spawn as Client");
             }
 

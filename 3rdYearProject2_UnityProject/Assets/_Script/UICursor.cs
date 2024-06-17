@@ -14,7 +14,7 @@ public class UICursor : MonoBehaviour
     void Update()
     {
         // 更新 UI 圖像的位置以匹配鼠標位置
-        Vector2 cursorPosition = Input.mousePosition;
+        Vector2 cursorPosition = Input.mousePosition-(new Vector3(-50,50));
         cursorTransform.position = cursorPosition;
     }
 
